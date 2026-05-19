@@ -1,0 +1,1834 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Helsedirektoratet — Statistikkrapport jan–apr 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f5f3ef;
+    --surface: #ffffff;
+    --surface2: #f0ede7;
+    --ink: #1a1916;
+    --ink2: #5a5750;
+    --ink3: #9a9690;
+    --accent: #2d5a8e;
+    --accent-light: #e6eef6;
+    --accent2: #1d7a5a;
+    --accent2-light: #e2f2ec;
+    --warn: #b85c1a;
+    --warn-light: #faeee4;
+    --rule: #e0ddd6;
+    --serif: 'DM Serif Display', Georgia, serif;
+    --sans: 'DM Sans', system-ui, sans-serif;
+  }
+
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  .page {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+
+  /* HERO */
+  .hero {
+    padding: 56px 0 40px;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 48px;
+  }
+  .hero-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink3);
+    margin-bottom: 12px;
+  }
+  .hero h1 {
+    font-family: var(--serif);
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 400;
+    line-height: 1.1;
+    color: var(--ink);
+    margin-bottom: 16px;
+  }
+  .hero-sub {
+    font-size: 16px;
+    color: var(--ink2);
+    max-width: 540px;
+    line-height: 1.7;
+  }
+  .hero-meta {
+    margin-top: 24px;
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .hero-meta-item {
+    font-size: 12px;
+    color: var(--ink3);
+  }
+  .hero-meta-item strong {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink2);
+  }
+
+  /* SECTION */
+  .section {
+    margin-bottom: 64px;
+  }
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 28px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .section-num {
+    font-family: var(--serif);
+    font-size: 13px;
+    color: var(--ink3);
+    min-width: 20px;
+  }
+  .section-title {
+    font-family: var(--serif);
+    font-size: 24px;
+    font-weight: 400;
+    color: var(--ink);
+  }
+
+  /* KPI GRID */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+  .kpi {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    padding: 20px 20px 16px;
+  }
+  .kpi-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink3);
+    margin-bottom: 8px;
+  }
+  .kpi-value {
+    font-family: var(--serif);
+    font-size: 36px;
+    line-height: 1;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .kpi-sub {
+    font-size: 12px;
+    color: var(--ink3);
+  }
+  .kpi.accent { border-left: 3px solid var(--accent); }
+  .kpi.green { border-left: 3px solid var(--accent2); }
+  .kpi.warn { border-left: 3px solid var(--warn); }
+
+  /* CHART CARD */
+  .chart-card {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    padding: 24px;
+    margin-bottom: 16px;
+  }
+  .chart-title {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink2);
+    margin-bottom: 20px;
+  }
+  .chart-wrap {
+    position: relative;
+    width: 100%;
+  }
+
+  /* TWO-COL */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  @media (max-width: 640px) { .two-col { grid-template-columns: 1fr; } }
+
+  /* MONTHS TABLE */
+  .month-table-wrap {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .month-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .month-table thead th {
+    background: var(--surface2);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--ink3);
+    padding: 12px 16px;
+    text-align: right;
+    border-bottom: 1px solid var(--rule);
+  }
+  .month-table thead th:first-child { text-align: left; }
+  .month-table tbody td {
+    padding: 11px 16px;
+    text-align: right;
+    border-bottom: 1px solid var(--rule);
+    color: var(--ink);
+  }
+  .month-table tbody td:first-child {
+    text-align: left;
+    font-weight: 500;
+    color: var(--ink2);
+  }
+  .month-table tbody tr:last-child td { border-bottom: none; }
+  .month-table tfoot td {
+    padding: 12px 16px;
+    text-align: right;
+    font-weight: 600;
+    background: var(--surface2);
+    color: var(--ink);
+    font-size: 13px;
+    border-top: 1px solid var(--rule);
+  }
+  .month-table tfoot td:first-child { text-align: left; }
+
+  /* BELEGG TABLE */
+  .belegg-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .belegg-table thead th {
+    background: var(--surface2);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--ink3);
+    padding: 12px 16px;
+    text-align: right;
+    border-bottom: 1px solid var(--rule);
+  }
+  .belegg-table thead th:first-child { text-align: left; }
+  .belegg-table tbody td {
+    padding: 10px 16px;
+    text-align: right;
+    border-bottom: 1px solid var(--rule);
+  }
+  .belegg-table tbody td:first-child { text-align: left; font-weight: 500; color: var(--ink2); }
+  .belegg-table tbody tr:last-child td { border-bottom: none; }
+
+  /* PROGRESS BAR */
+  .bar-wrap { display: flex; align-items: center; gap: 8px; }
+  .bar-track { flex: 1; height: 6px; background: var(--rule); border-radius: 3px; }
+  .bar-fill { height: 100%; border-radius: 3px; background: var(--accent); }
+  .bar-fill.high { background: var(--warn); }
+  .bar-fill.med { background: var(--accent2); }
+  .bar-pct { font-size: 12px; color: var(--ink2); min-width: 38px; text-align: right; }
+
+  /* LEGEND */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 20px;
+    margin-bottom: 16px;
+    font-size: 12px;
+    color: var(--ink2);
+  }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 2px; }
+
+  /* SAKS GRID */
+  .saks-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  @media (max-width: 640px) { .saks-grid { grid-template-columns: 1fr; } }
+  .saks-card {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    padding: 20px;
+  }
+  .saks-card-title {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--ink3);
+    margin-bottom: 16px;
+  }
+  .saks-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 8px;
+    font-size: 13px;
+  }
+  .saks-label { color: var(--ink2); }
+  .saks-val { font-weight: 500; color: var(--ink); }
+  .saks-val.big { font-family: var(--serif); font-size: 22px; }
+  .saks-divider { border: none; border-top: 1px solid var(--rule); margin: 12px 0; }
+
+  /* FOOTER */
+  .footer {
+    margin-top: 64px;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+    font-size: 12px;
+    color: var(--ink3);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="hero">
+    <p class="hero-eyebrow">Helsedirektoratet, Avd. Samfunnshelse · Statistikkrapport</p>
+    <h1>Asyl, mottak og<br>helsetjenester april 2026</h1>
+    <p class="hero-sub">Integrert oversikt over asylsøknader, vedtak, saksbehandlingstider, kapasitet i norske asylmottak og bruk av helsetjenester blant flyktninger og asylsøkere.</p>
+    <div class="hero-meta">
+      <div class="hero-meta-item"><strong>Asyl/mottak</strong>01.01.2026 – 30.04.2026</div>
+      <div class="hero-meta-item"><strong>Helsedata</strong>01.01.2025 – 31.05.2026</div>
+      <div class="hero-meta-item"><strong>Publisert</strong>April 2026</div>
+    </div>
+    <div style="margin-top:20px;padding:14px 18px;background:var(--surface2);border-radius:8px;font-size:12px;color:var(--ink2);display:flex;flex-wrap:wrap;gap:16px;">
+      <span><strong style="color:var(--ink);">Kilde asyl/mottak:</strong> Utlendingsdirektoratet (UDI)</span>
+      <span><strong style="color:var(--ink);">Kilde helsedata:</strong> Helsedirektoratet KUHR (Kontroll og Utbetaling av Helserefusjoner)</span>
+      <span><strong style="color:var(--ink);">Kilde integrering:</strong> Integrerings- og mangfoldsdirektoratet (IMDI)</span>
+    </div>
+  </header>
+
+  <!-- SITUASJONSOPPSUMMERING -->
+  <section class="section" style="margin-bottom:48px;">
+    <div class="section-header">
+      <span class="section-num" style="color:var(--warn);">↳</span>
+      <h2 class="section-title">Situasjonsoppsummering — april 2026 <small style="font-family:var(--sans);font-size:12px;font-weight:400;color:var(--ink3);">— Kilde: UDI / Helsedirektoratet / IMDI</small></h2>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:0;">
+
+      <div style="background:var(--surface);border:1px solid var(--rule);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:20px 22px;">
+        <div style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;">1 — Ankomstbilde og demografi</div>
+        <p style="font-size:13px;color:var(--ink2);line-height:1.75;margin-bottom:10px;">Ankomsttallene for perioden vurderes som <strong style="color:var(--ink);">stabile</strong>, men med forventning om økt tilstrømming fremover. Totalt <strong style="color:var(--ink);">650 ankomster</strong> i april, hvorav 551 fra Ukraina. UDI planlegger for <strong style="color:var(--ink);">18 500 ankomster</strong> i 2026.</p>
+        <div style="background:var(--surface2);border-radius:6px;padding:10px 14px;font-size:12px;color:var(--ink2);line-height:1.7;">
+          <strong style="color:var(--ink);">Demografiske trender:</strong> Nedgang registrert i gruppene enslige mindreårige (12 pers. i april, 10 fra Ukraina), menn 18–22 år og eldre over 70 år.
+        </div>
+      </div>
+
+      <div style="background:var(--surface);border:1px solid var(--rule);border-left:3px solid #1d7a5a;border-radius:0 10px 10px 0;padding:20px 22px;">
+        <div style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#1d7a5a;margin-bottom:10px;">2 — Kommunehelsetjenesten ved NAS</div>
+        <p style="font-size:13px;color:var(--ink2);line-height:1.75;margin-bottom:10px;">Helseavdelingen opererer med <strong style="color:var(--ink);">stabilt høyt aktivitetsnivå</strong> og håndterer komplekse helseutfordringer.</p>
+        <div style="background:var(--surface2);border-radius:6px;padding:10px 14px;font-size:12px;color:var(--ink2);line-height:1.7;">
+          <strong style="color:var(--ink);">Smittevern:</strong> Lokal smittevernplan etablert for utbrudd (covid-19, norovirus). Høyrisikosmitte-øvelse avholdt 24. april.<br><br>
+          <strong style="color:var(--ink);">Avklart:</strong> Helsedirektoratet skal delta i UDIs kriseledelse ved store ankomstøkninger som truer TB-kontrollgjennomføringen.
+        </div>
+      </div>
+
+      <div style="background:var(--surface);border:1px solid var(--rule);border-left:3px solid var(--warn);border-radius:0 10px 10px 0;padding:20px 22px;">
+        <div style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--warn);margin-bottom:10px;">3 — Mottaksdrift og kapasitetsutfordringer</div>
+        <p style="font-size:13px;color:var(--ink2);line-height:1.75;margin-bottom:10px;">God kontroll på saksbehandling, men <strong style="color:var(--ink);">økonomisk usikkerhet</strong> er en voksende bekymring.</p>
+        <div style="background:var(--surface2);border-radius:6px;padding:10px 14px;font-size:12px;color:var(--ink2);line-height:1.7;">
+          <strong style="color:var(--ink);">Belegg:</strong> 76,4 % kapasitetsutnyttelse i april (ned fra 78,8 % i mars). Særskilte bo- og pleieløsninger har belegg på ~95 %.<br><br>
+          <strong style="color:var(--ink);">Økonomi:</strong> Varslede budsjettkutt i 2026 utgjør betydelig risiko ved forventet ankomstøkning.<br><br>
+          <strong style="color:var(--ink);">Infrastruktur:</strong> Ombygging av helsescreeningfasiliteter i Råde er nær ferdigstillelse — midlertidig påvirkning på TB-kontrollgjennomføringen nesten over.<br><br>
+          <strong style="color:var(--ink);">DSA — strålescreening:</strong> Direktoratet for strålevern og atomsikkerhet (DSA) etablerer en screening- og dekontamineringspost for gammastråler ved Råde. Posten er etter planen ferdigstilt neste måned.<br><br>
+          <strong style="color:var(--ink);">Sultestreik:</strong> UDI opplyser om 4 søkere fra Syria som sultestreiker. Situasjonen følges tett.
+        </div>
+      </div>
+
+      <div style="background:var(--surface);border:1px solid var(--rule);border-left:3px solid #8b3a8b;border-radius:0 10px 10px 0;padding:20px 22px;">
+        <div style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#8b3a8b;margin-bottom:10px;">4 — Bosetting og kommunal kapasitet</div>
+        <p style="font-size:13px;color:var(--ink2);line-height:1.75;margin-bottom:10px;">Bosettingstakten er stabil, men møter <strong style="color:var(--ink);">økende motstand</strong> i kommunesektoren. Totalt <strong style="color:var(--ink);">3 341 bosatt</strong> fra Ukraina hittil i 2026.</p>
+        <div style="background:var(--surface2);border-radius:6px;padding:10px 14px;font-size:12px;color:var(--ink2);line-height:1.7;">
+          <strong style="color:var(--ink);">Boligmangel:</strong> 7 av 10 kommuner rapporterer store utfordringer med tilgang på private leieboliger.<br><br>
+          <strong style="color:var(--ink);">Kommuneøkonomi:</strong> Mange kommuner ønsker å begrense bosetting grunnet presset økonomi og dyrere leiekontrakter.<br><br>
+          <strong style="color:var(--ink);">Kvalitet:</strong> Betydelige forskjeller i bosettingsstandard mellom kommuner.
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION 01: SØKNADER -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2 class="section-title">Asylsøknader <small style="font-family:var(--sans);font-size:12px;font-weight:400;color:var(--ink3);">— Kilde: UDI</small></h2>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi accent">
+        <div class="kpi-label">Totalt jan–apr 2026</div>
+        <div class="kpi-value">4 118</div>
+        <div class="kpi-sub">alle søknader</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Januar</div>
+        <div class="kpi-value">1 139</div>
+        <div class="kpi-sub">940 koll. · 199 ord.</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Februar</div>
+        <div class="kpi-value">1 175</div>
+        <div class="kpi-sub">957 koll. · 218 ord.</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Mars</div>
+        <div class="kpi-value">1 154</div>
+        <div class="kpi-sub">965 koll. · 189 ord.</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">April</div>
+        <div class="kpi-value">650</div>
+        <div class="kpi-sub">511 koll. · 139 ord.</div>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">Søknader per måned etter type — jan–apr 2026</div>
+      <div class="legend">
+        <span class="legend-item"><span class="legend-dot" style="background:#2d5a8e"></span>Kollektiv beskyttelse</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#1d7a5a"></span>Ordinær</span>
+      </div>
+      <div class="chart-wrap" style="height: 260px;">
+        <canvas id="soknaderChart" role="img" aria-label="Søylediagram som viser asylsøknader per måned fordelt på kollektiv beskyttelse og ordinære søkere">Kollektiv beskyttelse: jan 935, feb 957, mars 968. Ordinær: jan 199, feb 217, mars 190.</canvas>
+      </div>
+    </div>
+
+    <div class="month-table-wrap">
+      <table class="month-table">
+        <thead>
+          <tr>
+            <th>Type søknad</th>
+            <th>Januar</th>
+            <th>Februar</th>
+            <th>Mars</th>
+            <th>April</th>
+            <th>Totalsum</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Kollektiv beskyttelse</td>
+            <td>940</td>
+            <td>957</td>
+            <td>965</td>
+            <td>511</td>
+            <td>3 373</td>
+          </tr>
+          <tr>
+            <td>Ordinær</td>
+            <td>199</td>
+            <td>218</td>
+            <td>189</td>
+            <td>139</td>
+            <td>745</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td>Totalsum</td>
+            <td>1 139</td>
+            <td>1 175</td>
+            <td>1 154</td>
+            <td>650</td>
+            <td>4 118</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </section>
+
+  <!-- SECTION 02: TB SCREENING -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2 class="section-title">Screening for tuberkulose (TB) ved Råde ankomstsenter <small style="font-family:var(--sans);font-size:12px;font-weight:400;color:var(--ink3);">— Kilde: Helsedirektoratet / UDI</small></h2>
+    </div>
+    <p style="font-size:13px;color:var(--ink2);margin-bottom:28px;">Alle asylsøkere og flyktninger skal screenes for tuberkulose ved ankomst. Figuren viser antall asylsøkere/beskyttede og antall gjennomførte TB-undersøkelser ved Sørlandet sykehus (SØ) per måned, 2022–2026, samt andelen screenet.</p>
+
+    <div class="kpi-grid">
+      <div class="kpi accent">
+        <div class="kpi-label">TB-screenet 2022</div>
+        <div class="kpi-value">14 607</div>
+        <div class="kpi-sub">av 40 108 ankomne · 36 %</div>
+      </div>
+      <div class="kpi green">
+        <div class="kpi-label">TB-screenet 2023</div>
+        <div class="kpi-value">24 449</div>
+        <div class="kpi-sub">av 40 624 ankomne · 60 %</div>
+      </div>
+      <div class="kpi accent">
+        <div class="kpi-label">TB-screenet 2024</div>
+        <div class="kpi-value">~21 000</div>
+        <div class="kpi-sub">andel over 80 % fra jan 2024</div>
+      </div>
+      <div class="kpi warn">
+        <div class="kpi-label">TB-screenet jan–apr 2026</div>
+        <div class="kpi-value">3 484</div>
+        <div class="kpi-sub">av 4 118 ankomne · 85 %</div>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">Antall asylsøkere og TB-screenet per måned — jan 2022 til mars 2026</div>
+      <div class="legend">
+        <span class="legend-item"><span class="legend-dot" style="background:#9a9690;"></span>Ankomster (asyl/beskyttelse)</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#2d5a8e;"></span>TB-undersøkt (SØ)</span>
+      </div>
+      <div class="chart-wrap" style="height:320px;">
+        <canvas id="tbChart" aria-label="Kombinert linje- og søylediagram over TB-screening per måned 2022-2026"></canvas>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">Andel TB-screenet per år — utvikling</div>
+      <div class="chart-wrap" style="height:180px;">
+        <canvas id="tbAndel" aria-label="Søylediagram over andel TB-screenet per år"></canvas>
+      </div>
+    </div>
+
+    <div class="month-table-wrap">
+      <table class="month-table">
+        <thead>
+          <tr>
+            <th style="text-align:left">År</th>
+            <th>Asylsøkere/beskyttede</th>
+            <th>TB-undersøkt (SØ)</th>
+            <th>Andel screenet</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>2022</td><td>40 108</td><td>14 607</td><td style="color:#b85c1a;font-weight:500">36 %</td></tr>
+          <tr><td>2023</td><td>40 624</td><td>24 449</td><td style="color:#1d7a5a;font-weight:500">60 %</td></tr>
+          <tr><td>2024 (jan–nov)</td><td>~22 000</td><td>~19 000</td><td style="color:#1d7a5a;font-weight:500">~87 %</td></tr>
+          <tr><td>2025 (jan–des)</td><td>~15 000</td><td>~12 000</td><td style="color:#2d5a8e;font-weight:500">~80 %</td></tr>
+          <tr><td>2026 (jan–mar)</td><td>3 441</td><td>2 773</td><td style="color:#2d5a8e;font-weight:500">81 %</td></tr>
+          <tr><td>2026 (april)</td><td>650</td><td>711</td><td style="color:#1d7a5a;font-weight:500">109 %*</td></tr>
+          <tr><td>2026 (jan–apr)</td><td>4 118</td><td>3 484</td><td style="color:#1d7a5a;font-weight:500">85 %</td></tr>
+        </tbody>
+        <tfoot>
+          <tr><td>Totalt 2022–2026</td><td>~122 000</td><td>~74 000</td><td>~61 %</td></tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <div style="background:var(--surface2);border-radius:8px;padding:14px 18px;margin-top:12px;font-size:12px;color:var(--ink3);line-height:1.7;">
+      <strong style="color:var(--ink2);">*) Andel > 100 % i april</strong> skyldes at NAS screener personer som ankom i mars men ikke ble undersøkt der (etterslep). Andelen TB-screenet økte markert fra 36 % i 2022 til over 80 % fra 2024. Den lave andelen i 2022 skyldes delvis det store, raske volumet av ukrainske flyktninger fra mars 2022 (8 078 ankomne i mars alene) som oversteg screeningkapasiteten. Ukrainere utgjorde i desember 2022–februar 2023 rundt 85 % av alle ankomne (2 446 av 2 856).
+    </div>
+  </section>
+
+  <script>
+  // TB SCREENING CHART
+  const tbLabels = [
+    'jan 22','feb','mar','apr','mai','jun','jul','aug','sep','okt','nov','des',
+    'jan 23','feb','mar','apr','mai','jun','jul','aug','sep','okt','nov','des',
+    'jan 24','feb','mar','apr','mai','jun','jul','aug','sep','okt','nov','des',
+    'jan 25','feb','mar','apr','mai','jun','jul','aug','sep','okt','nov','des',
+    'jan 26','feb 26','mar 26','apr 26'
+  ];
+  const tbAsyl = [
+    158,224,8078,7559,2569,2518,2668,3734,3443,3457,2848,2852,
+    2528,3167,3037,2155,2147,2587,3482,4266,5432,5019,3623,3181,
+    2016,1695,1687,1589,1592,1909,1881,2361,2679,2282,1616,1602,
+    1209,1043,1055,741,773,937,1096,1268,2289,2688,2033,1800,
+    1138,1180,1158,650
+  ];
+  const tbUndersøkt = [
+    100,108,2256,1632,851,1128,1611,1451,1195,1349,1772,1154,
+    1179,1721,1998,1238,1506,1163,2204,2917,2824,3086,2650,1963,
+    1903,1389,1384,1250,1534,1534,1860,1911,2228,2419,1616,1409,
+    867,926,847,736,544,704,1021,852,1806,2823,1691,1917,
+    867,1037,869,711
+  ];
+  const tbAndeler = tbAsyl.map((a,i) => a > 0 ? Math.min(110, Math.round(tbUndersøkt[i]/a*100)) : null);
+
+  new Chart(document.getElementById('tbChart'), {
+    type: 'line',
+    data: {
+      labels: tbLabels,
+      datasets: [
+        {
+          label: 'Ankomster (asyl/beskyttelse)',
+          data: tbAsyl,
+          borderColor: '#9a9690',
+          backgroundColor: 'rgba(154,150,144,0.08)',
+          borderWidth: 2,
+          pointRadius: 2,
+          pointBackgroundColor: '#9a9690',
+          tension: 0.3,
+          fill: true
+        },
+        {
+          label: 'TB-undersøkt (SØ)',
+          data: tbUndersøkt,
+          borderColor: '#2d5a8e',
+          backgroundColor: 'rgba(45,90,142,0.08)',
+          borderWidth: 2.5,
+          pointRadius: 2,
+          pointBackgroundColor: '#2d5a8e',
+          tension: 0.3,
+          fill: true
+        }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: {
+          grid: { display: false },
+          ticks: { color: '#9a9690', font: { size: 9 }, maxRotation: 45, autoSkip: true, maxTicksLimit: 26 }
+        },
+        y: {
+          grid: { color: '#e0ddd6' },
+          ticks: { color: '#9a9690' },
+          title: { display: true, text: 'Antall personer', color: '#9a9690', font: { size: 11 } }
+        }
+      }
+    }
+  });
+
+  // Yearly bar chart
+  new Chart(document.getElementById('tbAndel'), {
+    type: 'bar',
+    data: {
+      labels: ['2022', '2023', '2024 (jan–nov)', '2025 (est.)', '2026 (jan–mar)'],
+      datasets: [{
+        label: 'Andel TB-screenet',
+        data: [36, 60, 87, 80, 80],
+        backgroundColor: ['#b85c1a','#1d7a5a','#2d5a8e','#2d5a8e','#2d5a8e'],
+        borderRadius: 6
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ctx.raw + ' %' } }
+      },
+      scales: {
+        x: { grid: { display: false }, ticks: { color: '#9a9690' } },
+        y: { max: 110, grid: { color: '#e0ddd6' }, ticks: { color: '#9a9690', callback: v => v + '%' } }
+      }
+    }
+  });
+  </script>
+
+
+  <!-- SECTION 03: VEDTAK -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2 class="section-title">Asylvedtak <small style="font-family:var(--sans);font-size:12px;font-weight:400;color:var(--ink3);">— Kilde: UDI</small></h2>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi accent">
+        <div class="kpi-label">Totalt jan–apr 2026</div>
+        <div class="kpi-value">5 364</div>
+        <div class="kpi-sub">alle vedtak</div>
+      </div>
+      <div class="kpi green">
+        <div class="kpi-label">Innvilgelser</div>
+        <div class="kpi-value">4 309</div>
+        <div class="kpi-sub">80,3 % av alle vedtak</div>
+      </div>
+      <div class="kpi warn">
+        <div class="kpi-label">Avslag</div>
+        <div class="kpi-value">437</div>
+        <div class="kpi-sub">8,1 % av alle vedtak</div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="chart-card">
+        <div class="chart-title">Vedtak per måned</div>
+        <div class="legend">
+          <span class="legend-item"><span class="legend-dot" style="background:#2d5a8e"></span>Innvilget</span>
+          <span class="legend-item"><span class="legend-dot" style="background:#b85c1a"></span>Avslag/andre</span>
+        </div>
+        <div class="chart-wrap" style="height: 220px;">
+          <canvas id="vedtakChart" role="img" aria-label="Søylediagram over vedtak per måned">Vedtak per måned fordelt på utfall.</canvas>
+        </div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-title">Fordeling Q1 2026</div>
+        <div class="chart-wrap" style="height: 220px;">
+          <canvas id="vedtakPieChart" role="img" aria-label="Kakediagram over vedtaktyper totalt i Q1 2026">Konvensjonsflyktning 113, Kollektiv beskyttelse 3383, Avslag 323, Dublin 95, Trukket 254, Henlagt 100, Andre 35.</canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="month-table-wrap">
+      <table class="month-table">
+        <thead>
+          <tr>
+            <th>Vedtaktype</th>
+            <th>Januar</th>
+            <th>Februar</th>
+            <th>Mars</th>
+            <th>April</th>
+            <th>Totalt</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>01. Konvensjonsflyktning</td><td>30</td><td>37</td><td>46</td><td>43</td><td>156</td></tr>
+          <tr><td>02. Kollektiv beskyttelse</td><td>1 328</td><td>1 015</td><td>1 040</td><td>751</td><td>4 134</td></tr>
+          <tr><td>03. Annen flyktningstatus</td><td>1</td><td>0</td><td>1</td><td>5</td><td>7</td></tr>
+          <tr><td>04. Humanitære grunner</td><td>0</td><td>1</td><td>2</td><td>9</td><td>12</td></tr>
+          <tr><td>06. Avslag</td><td>97</td><td>97</td><td>129</td><td>114</td><td>437</td></tr>
+          <tr><td>07. Dublin II-forordningen</td><td>40</td><td>28</td><td>27</td><td>55</td><td>150</td></tr>
+          <tr><td>08. Trukket</td><td>98</td><td>66</td><td>86</td><td>64</td><td>314</td></tr>
+          <tr><td>09. Henlagt</td><td>38</td><td>21</td><td>40</td><td>19</td><td>118</td></tr>
+          <tr><td>10. Trygt tredjeland</td><td>8</td><td>13</td><td>9</td><td>5</td><td>35</td></tr>
+          <tr><td>12. Andre avslag</td><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td></tr>
+        </tbody>
+        <tfoot>
+          <tr><td>Totalsum</td><td>1 640</td><td>1 278</td><td>1 380</td><td>1 066</td><td>5 364</td></tr>
+        </tfoot>
+      </table>
+    </div>
+  </section>
+
+  <!-- SECTION 04: TIL BEHANDLING -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2 class="section-title">Saker til behandling <small style="font-family:var(--sans);font-size:12px;font-weight:400;color:var(--ink3);">— Kilde: UDI</small></h2>
+    </div>
+    <p style="font-size:13px;color:var(--ink2);margin-bottom:24px;">Antall asylsaker til behandling ved utløpet av mars 2026. Inkluderer saker opprettet hos politiet som venter på henleggelse eller ikke er kommet til UDI.</p>
+
+    <div class="kpi-grid">
+      <div class="kpi accent">
+        <div class="kpi-label">Totalt (april)</div>
+        <div class="kpi-value">5 416</div>
+        <div class="kpi-sub">saker til behandling</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Ordinære</div>
+        <div class="kpi-value">4 743</div>
+        <div class="kpi-sub">87,6 %</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Koll. beskyttelse</div>
+        <div class="kpi-value">673</div>
+        <div class="kpi-sub">12,4 %</div>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">Ordinære saker etter ventetid</div>
+      <div class="legend">
+        <span class="legend-item"><span class="legend-dot" style="background:#2d5a8e"></span>Under 6 mnd</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#1d7a5a"></span>6–11 mnd</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#b85c1a"></span>12–14 mnd</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#8b1a6b"></span>15–23 mnd</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#5a4a8a"></span>24–35 mnd</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#c43b2a"></span>Over 36 mnd</span>
+      </div>
+      <div class="chart-wrap" style="height: 260px;">
+        <canvas id="ventetidChart" role="img" aria-label="Søylediagram over ordinære asylsaker etter ventetid">Under 6 mnd: 864, 6-11 mnd: 716, 12-14 mnd: 271, 15-23 mnd: 2126, 24-35 mnd: 848, Over 36 mnd: 75.</canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 05: SAKSBEHANDLINGSTIDER -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <h2 class="section-title">Saksbehandlingstider <small style="font-family:var(--sans);font-size:12px;font-weight:400;color:var(--ink3);">— Kilde: UDI</small></h2>
+    </div>
+    <p style="font-size:13px;color:var(--ink2);margin-bottom:28px;">Antall dager, siste 14 måneder. Linjediagrammet viser gjennomsnittlig saksbehandlingstid per prosedyretype.</p>
+
+    <div class="saks-grid">
+      <div class="saks-card">
+        <div class="saks-card-title">Kollektiv beskyttelse</div>
+        <div class="saks-row"><span class="saks-label">Hittil i år, snitt</span><span class="saks-val big">36</span></div>
+        <div class="saks-row"><span class="saks-label">dager gjennomsnitt</span><span class="saks-val"></span></div>
+        <hr class="saks-divider">
+        <div class="saks-row"><span class="saks-label">Januar snitt</span><span class="saks-val">30 dager</span></div>
+        <div class="saks-row"><span class="saks-label">Februar snitt</span><span class="saks-val">30 dager</span></div>
+        <div class="saks-row"><span class="saks-label">Mars snitt</span><span class="saks-val">49 dager</span></div>
+        <div class="saks-row"><span class="saks-label">90-prosentil mars</span><span class="saks-val">123 dager</span></div>
+      </div>
+      <div class="saks-card">
+        <div class="saks-card-title">Ordinære asylsøkere</div>
+        <div class="saks-row"><span class="saks-label">Hittil i år, snitt</span><span class="saks-val big">422</span></div>
+        <div class="saks-row"><span class="saks-label">dager gjennomsnitt</span><span class="saks-val"></span></div>
+        <hr class="saks-divider">
+        <div class="saks-row"><span class="saks-label">Januar snitt</span><span class="saks-val">380 dager</span></div>
+        <div class="saks-row"><span class="saks-label">Februar snitt</span><span class="saks-val">415 dager</span></div>
+        <div class="saks-row"><span class="saks-label">Mars snitt</span><span class="saks-val">464 dager</span></div>
+        <div class="saks-row"><span class="saks-label">90-prosentil mars</span><span class="saks-val">880 dager</span></div>
+      </div>
+      <div class="saks-card">
+        <div class="saks-card-title">Enslige mindreårige</div>
+        <div class="saks-row"><span class="saks-label">Hittil i år, snitt</span><span class="saks-val big">186</span></div>
+        <div class="saks-row"><span class="saks-label">dager gjennomsnitt</span><span class="saks-val"></span></div>
+        <hr class="saks-divider">
+        <div class="saks-row"><span class="saks-label">Januar snitt</span><span class="saks-val">91 dager</span></div>
+        <div class="saks-row"><span class="saks-label">Februar snitt</span><span class="saks-val">124 dager</span></div>
+        <div class="saks-row"><span class="saks-label">Mars snitt</span><span class="saks-val">264 dager</span></div>
+        <div class="saks-row"><span class="saks-label">90-prosentil mars</span><span class="saks-val">887 dager</span></div>
+      </div>
+    </div>
+
+    <div class="chart-card" style="margin-top:16px;">
+      <div class="chart-title">Gjennomsnittlig saksbehandlingstid — 14 måneder</div>
+      <div class="legend">
+        <span class="legend-item"><span class="legend-dot" style="background:#2d5a8e"></span>Kollektiv beskyttelse</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#b85c1a"></span>Ordinær</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#1d7a5a"></span>Enslige mindreårige</span>
+      </div>
+      <div class="chart-wrap" style="height: 280px;">
+        <canvas id="sakstidChart" role="img" aria-label="Linjediagram over gjennomsnittlig saksbehandlingstid per type, siste 14 måneder">Saksbehandlingstider for kollektiv beskyttelse, ordinære søkere og enslige mindreårige.</canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 06: KAPASITET OG BELEGG -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <h2 class="section-title">Kapasitet og belegg <small style="font-family:var(--sans);font-size:12px;font-weight:400;color:var(--ink3);">— Kilde: UDI</small></h2>
+    </div>
+    <p style="font-size:13px;color:var(--ink2);margin-bottom:28px;">Kapasitet og belegg etter avdelingstype ved utgangen av april 2026.</p>
+
+    <div class="kpi-grid">
+      <div class="kpi accent">
+        <div class="kpi-label">Total kapasitet</div>
+        <div class="kpi-value">14 296</div>
+        <div class="kpi-sub">plasser totalt</div>
+      </div>
+      <div class="kpi warn">
+        <div class="kpi-label">Totalt belegg</div>
+        <div class="kpi-value">10 917</div>
+        <div class="kpi-sub">76,4 % beleggsprosent</div>
+      </div>
+      <div class="kpi green">
+        <div class="kpi-label">Ledige plasser</div>
+        <div class="kpi-value">3 379</div>
+        <div class="kpi-sub">23,6 % ledig</div>
+      </div>
+    </div>
+
+    <div class="month-table-wrap">
+      <table class="belegg-table">
+        <thead>
+          <tr>
+            <th>Avdelingstype</th>
+            <th>Kapasitet</th>
+            <th>Belegg</th>
+            <th>Beleggsprosent</th>
+          </tr>
+        </thead>
+        <tbody id="beleggTableBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- SECTION 07: KART -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">07</span>
+      <h2 class="section-title">Kart over asylmottak <small style="font-family:var(--sans);font-size:12px;font-weight:400;color:var(--ink3);">— Kilde: UDI</small></h2>
+    </div>
+    <p style="font-size:13px;color:var(--ink2);margin-bottom:20px;">Sirkelstørrelse viser antall beboere per mottak ved utgangen av april 2026. Klikk på en sirkel for detaljer.</p>
+
+    <div style="display:flex;flex-wrap:wrap;gap:12px 20px;margin-bottom:16px;font-size:12px;color:var(--ink2);">
+      <span style="display:flex;align-items:center;gap:6px;"><span style="width:12px;height:12px;border-radius:50%;background:#b85c1a;opacity:0.85;display:inline-block;"></span>Akuttinnkvartering</span>
+      <span style="display:flex;align-items:center;gap:6px;"><span style="width:12px;height:12px;border-radius:50%;background:#2d5a8e;opacity:0.85;display:inline-block;"></span>Ordinær</span>
+      <span style="display:flex;align-items:center;gap:6px;"><span style="width:12px;height:12px;border-radius:50%;background:#1d7a5a;opacity:0.85;display:inline-block;"></span>Ankomstsenter / Transitt</span>
+      <span style="display:flex;align-items:center;gap:6px;"><span style="width:12px;height:12px;border-radius:50%;background:#8b3a8b;opacity:0.85;display:inline-block;"></span>EMA</span>
+    </div>
+
+    <div style="border:1px solid var(--rule);border-radius:10px;overflow:hidden;position:relative;">
+      <div id="map" style="width:100%;height:620px;"></div>
+      <div id="map-tooltip" style="display:none;position:absolute;background:var(--surface);border:1px solid var(--rule);border-radius:8px;padding:10px 14px;font-size:13px;pointer-events:none;max-width:200px;box-shadow:0 2px 8px rgba(0,0,0,0.12);z-index:999;">
+        <div id="tt-name" style="font-weight:600;margin-bottom:4px;color:var(--ink);"></div>
+        <div id="tt-type" style="font-size:11px;color:var(--ink3);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.06em;"></div>
+        <div id="tt-belegg" style="color:var(--ink2);"></div>
+        <div id="tt-pct" style="color:var(--ink2);"></div>
+      </div>
+    </div>
+  </section>
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+  (function() {
+    const mottak = [{"name":"Nasjonalt Ankomstsenter","place":"Råde","lat":59.354,"lng":10.863,"belegg":207,"kapasitet":850,"type":"Ankomstsenter"},{"name":"Haslemoen","place":"Våler","lat":60.638,"lng":12.117,"belegg":450,"kapasitet":500,"type":"Akuttinnkvartering"},{"name":"Lista","place":"Farsund","lat":58.112,"lng":6.654,"belegg":160,"kapasitet":212,"type":"Akuttinnkvartering"},{"name":"Peer Gynt","place":"Vinstra","lat":61.574,"lng":9.741,"belegg":100,"kapasitet":150,"type":"Akuttinnkvartering"},{"name":"Rondane","place":"Otta","lat":61.773,"lng":9.536,"belegg":90,"kapasitet":250,"type":"Akuttinnkvartering"},{"name":"Torpo","place":"Ål","lat":60.658,"lng":8.742,"belegg":150,"kapasitet":350,"type":"Akuttinnkvartering"},{"name":"Valdres","place":"Fagernes","lat":60.991,"lng":9.228,"belegg":105,"kapasitet":250,"type":"Akuttinnkvartering"},{"name":"Hurdal","place":"Hurdal","lat":60.374,"lng":11.076,"belegg":0,"kapasitet":40,"type":"Transitt"},{"name":"Kasper","place":"Stjørdal","lat":63.462,"lng":10.952,"belegg":0,"kapasitet":85,"type":"Transitt"},{"name":"Ørmen","place":"Averøy","lat":63.019,"lng":7.604,"belegg":94,"kapasitet":180,"type":"Transitt"},{"name":"Bankplassen","place":"Bodø","lat":67.283,"lng":14.376,"belegg":148,"kapasitet":150,"type":"Ordinær"},{"name":"Bømlo","place":"Bømlo","lat":59.773,"lng":5.211,"belegg":29,"kapasitet":45,"type":"Ordinær"},{"name":"Engerdal","place":"Engerdal","lat":61.762,"lng":11.948,"belegg":123,"kapasitet":150,"type":"Ordinær"},{"name":"Fauske","place":"Fauske","lat":67.259,"lng":15.395,"belegg":18,"kapasitet":50,"type":"Ordinær"},{"name":"Framnes","place":"Mandal","lat":58.016,"lng":7.456,"belegg":39,"kapasitet":44,"type":"Ordinær"},{"name":"Færder","place":"Nøtterøy","lat":59.218,"lng":10.411,"belegg":32,"kapasitet":45,"type":"Ordinær"},{"name":"Hareid","place":"Hareid","lat":62.365,"lng":6.022,"belegg":43,"kapasitet":48,"type":"Ordinær"},{"name":"Holmestrand","place":"Holmestrand","lat":59.49,"lng":10.327,"belegg":21,"kapasitet":30,"type":"Ordinær"},{"name":"Horten","place":"Horten","lat":59.414,"lng":10.488,"belegg":37,"kapasitet":62,"type":"Ordinær"},{"name":"Hå N2","place":"Varhaug","lat":58.617,"lng":5.651,"belegg":126,"kapasitet":150,"type":"Ordinær"},{"name":"Indre Østfold","place":"Askim","lat":59.582,"lng":11.165,"belegg":16,"kapasitet":32,"type":"Ordinær"},{"name":"Isfjorden","place":"Isfjorden","lat":62.533,"lng":7.476,"belegg":5,"kapasitet":30,"type":"Ordinær"},{"name":"Kirkenes","place":"Kirkenes","lat":69.727,"lng":30.05,"belegg":11,"kapasitet":15,"type":"Ordinær"},{"name":"Kongsvinger N2","place":"Kongsvinger","lat":60.194,"lng":11.998,"belegg":136,"kapasitet":150,"type":"Ordinær"},{"name":"Kristiansand N2","place":"Kristiansand","lat":58.146,"lng":7.992,"belegg":126,"kapasitet":150,"type":"Ordinær"},{"name":"Kristiansand","place":"Kristiansand","lat":58.155,"lng":8.002,"belegg":149,"kapasitet":150,"type":"Ordinær"},{"name":"Kvinesdal","place":"Kvinesdal","lat":58.313,"lng":6.979,"belegg":31,"kapasitet":45,"type":"Ordinær"},{"name":"Kvæfjord N2","place":"Borkenes","lat":68.766,"lng":16.439,"belegg":81,"kapasitet":100,"type":"Ordinær"},{"name":"Målselv","place":"Bardufoss","lat":69.056,"lng":18.536,"belegg":26,"kapasitet":35,"type":"Ordinær"},{"name":"Namsos N2","place":"Namsos","lat":64.466,"lng":11.497,"belegg":22,"kapasitet":50,"type":"Ordinær"},{"name":"Nesna N2","place":"Nesna","lat":66.198,"lng":13.028,"belegg":71,"kapasitet":100,"type":"Ordinær"},{"name":"Nome","place":"Ulefoss","lat":59.284,"lng":9.266,"belegg":198,"kapasitet":200,"type":"Ordinær"},{"name":"Notodden N2","place":"Notodden","lat":59.56,"lng":9.257,"belegg":43,"kapasitet":50,"type":"Ordinær"},{"name":"Ormseter Hamar","place":"Hamar","lat":60.794,"lng":11.067,"belegg":33,"kapasitet":39,"type":"Ordinær"},{"name":"Radøytunet","place":"Radøy","lat":60.626,"lng":4.96,"belegg":140,"kapasitet":150,"type":"Ordinær"},{"name":"Renskaug","place":"Lier","lat":59.788,"lng":10.232,"belegg":25,"kapasitet":37,"type":"Ordinær"},{"name":"Ringebu","place":"Ringebu","lat":61.527,"lng":10.069,"belegg":139,"kapasitet":150,"type":"Ordinær"},{"name":"Ringsaker","place":"Moelv","lat":60.934,"lng":10.697,"belegg":143,"kapasitet":150,"type":"Ordinær"},{"name":"Setermoen","place":"Setermoen","lat":68.858,"lng":18.274,"belegg":173,"kapasitet":180,"type":"Ordinær"},{"name":"Snorre","place":"Stavanger","lat":58.97,"lng":5.735,"belegg":60,"kapasitet":71,"type":"Ordinær"},{"name":"Snåsa","place":"Snåsa","lat":64.243,"lng":12.377,"belegg":23,"kapasitet":42,"type":"Ordinær"},{"name":"Sogndal N2","place":"Sogndal","lat":61.231,"lng":7.1,"belegg":35,"kapasitet":50,"type":"Ordinær"},{"name":"Solbakken","place":"Sunndalsøra","lat":62.675,"lng":8.561,"belegg":158,"kapasitet":180,"type":"Ordinær"},{"name":"Solsiden N2","place":"Ålesund","lat":62.471,"lng":6.155,"belegg":207,"kapasitet":250,"type":"Ordinær"},{"name":"Stavanger N2","place":"Stavanger","lat":58.96,"lng":5.745,"belegg":39,"kapasitet":50,"type":"Ordinær"},{"name":"Steinkjer","place":"Steinkjer","lat":64.014,"lng":11.495,"belegg":141,"kapasitet":150,"type":"Ordinær"},{"name":"Stord N2","place":"Stord","lat":59.783,"lng":5.501,"belegg":136,"kapasitet":150,"type":"Ordinær"},{"name":"Storslett N2","place":"Storslett","lat":69.765,"lng":20.963,"belegg":99,"kapasitet":100,"type":"Ordinær"},{"name":"Søre Sunnmøre N2","place":"Ørsta","lat":62.197,"lng":6.138,"belegg":120,"kapasitet":150,"type":"Ordinær"},{"name":"Tingvoll","place":"Tingvoll","lat":62.907,"lng":8.185,"belegg":143,"kapasitet":150,"type":"Ordinær"},{"name":"Tonsåsen","place":"Øyer","lat":61.279,"lng":10.437,"belegg":5,"kapasitet":30,"type":"Ordinær"},{"name":"Trondheim","place":"Trondheim","lat":63.43,"lng":10.393,"belegg":140,"kapasitet":150,"type":"Ordinær"},{"name":"Tønsberg","place":"Tønsberg","lat":59.267,"lng":10.408,"belegg":33,"kapasitet":35,"type":"Ordinær"},{"name":"Tåsen","place":"Oslo","lat":59.959,"lng":10.734,"belegg":0,"kapasitet":53,"type":"Ordinær"},{"name":"Vadsø N2","place":"Vadsø","lat":70.075,"lng":29.752,"belegg":80,"kapasitet":100,"type":"Ordinær"},{"name":"Vang N2","place":"Vang","lat":60.879,"lng":8.558,"belegg":39,"kapasitet":50,"type":"Ordinær"},{"name":"Vegårshei","place":"Vegårshei","lat":58.749,"lng":8.889,"belegg":0,"kapasitet":30,"type":"Ordinær"},{"name":"Vensmoen","place":"Mosjøen","lat":65.836,"lng":13.195,"belegg":26,"kapasitet":55,"type":"Ordinær"},{"name":"Vestlandsheimen","place":"Sandnes","lat":58.851,"lng":5.736,"belegg":20,"kapasitet":30,"type":"Ordinær"},{"name":"Vikersund","place":"Vikersund","lat":59.974,"lng":10.009,"belegg":4,"kapasitet":30,"type":"Ordinær"},{"name":"Vikhammer","place":"Malvik","lat":63.434,"lng":10.729,"belegg":137,"kapasitet":150,"type":"Ordinær"},{"name":"Mysebu EMA transitt","place":"Mysen","lat":59.554,"lng":11.33,"belegg":0,"kapasitet":25,"type":"EMA"},{"name":"Fosnavåg EMA","place":"Fosnavåg","lat":62.343,"lng":5.625,"belegg":10,"kapasitet":30,"type":"EMA"},{"name":"Hamnsund EMA","place":"Hamnsund","lat":62.517,"lng":6.079,"belegg":12,"kapasitet":25,"type":"EMA"},{"name":"Heimly EMA","place":"Flekkefjord","lat":58.296,"lng":6.665,"belegg":12,"kapasitet":25,"type":"EMA"},{"name":"Hå EMA","place":"Nærbø","lat":58.671,"lng":5.63,"belegg":19,"kapasitet":30,"type":"EMA"},{"name":"Isfjorden EMA","place":"Isfjorden","lat":62.52,"lng":7.466,"belegg":11,"kapasitet":25,"type":"EMA"},{"name":"Kløverhagen EMA","place":"Kløfta","lat":60.063,"lng":11.127,"belegg":17,"kapasitet":25,"type":"EMA"},{"name":"Leirfjord EMA","place":"Leirfjord","lat":65.99,"lng":13.112,"belegg":11,"kapasitet":25,"type":"EMA"},{"name":"Lista EMA","place":"Farsund","lat":58.103,"lng":6.661,"belegg":19,"kapasitet":30,"type":"EMA"},{"name":"Litlabø EMA","place":"Stord","lat":59.791,"lng":5.507,"belegg":22,"kapasitet":30,"type":"EMA"},{"name":"Lyngdal Solsiden EMA","place":"Lyngdal","lat":58.136,"lng":7.071,"belegg":20,"kapasitet":30,"type":"EMA"},{"name":"Rjukan EMA","place":"Rjukan","lat":59.876,"lng":8.595,"belegg":18,"kapasitet":30,"type":"EMA"},{"name":"Sjøvegan EMA","place":"Sjøvegan","lat":68.902,"lng":17.817,"belegg":13,"kapasitet":30,"type":"EMA"},{"name":"Sunndal EMA","place":"Sunndalsøra","lat":62.685,"lng":8.551,"belegg":11,"kapasitet":30,"type":"EMA"},{"name":"Søre Sunnmøre EMA","place":"Ørsta","lat":62.208,"lng":6.128,"belegg":11,"kapasitet":25,"type":"EMA"},{"name":"Tambartun EMA","place":"Melhus","lat":63.277,"lng":10.266,"belegg":16,"kapasitet":30,"type":"EMA"},{"name":"Ørskog EMA","place":"Ørskog","lat":62.448,"lng":6.762,"belegg":13,"kapasitet":25,"type":"EMA"},{"name":"Åsegarden EMA","place":"Fjell","lat":60.358,"lng":4.999,"belegg":14,"kapasitet":25,"type":"EMA"}];
+
+    const typeColor = {
+      'Ankomstsenter': '#1d7a5a',
+      'Transitt':      '#1d7a5a',
+      'Akuttinnkvartering': '#b85c1a',
+      'Ordinær':       '#2d5a8e',
+      'EMA':           '#8b3a8b'
+    };
+
+    const map = L.map('map', {
+      center: [65.0, 14.5],
+      zoom: 5,
+      zoomControl: true,
+      scrollWheelZoom: false
+    });
+
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+      attribution: '© OpenStreetMap © CARTO',
+      subdomains: 'abcd',
+      maxZoom: 19
+    }).addTo(map);
+
+    const tooltip = document.getElementById('map-tooltip');
+    const ttName = document.getElementById('tt-name');
+    const ttType = document.getElementById('tt-type');
+    const ttBelegg = document.getElementById('tt-belegg');
+    const ttPct = document.getElementById('tt-pct');
+
+    const maxBelegg = Math.max(...mottak.map(m => m.belegg));
+
+    mottak.forEach(m => {
+      const r = Math.max(5, Math.sqrt(m.belegg / maxBelegg) * 36);
+      const color = typeColor[m.type] || '#888';
+      const pct = m.kapasitet > 0 ? Math.round(m.belegg / m.kapasitet * 100) : 0;
+
+      const circle = L.circleMarker([m.lat, m.lng], {
+        radius: r,
+        fillColor: color,
+        color: color,
+        weight: 1.5,
+        opacity: 0.9,
+        fillOpacity: 0.55
+      }).addTo(map);
+
+      circle.on('mouseover', function(e) {
+        tooltip.style.display = 'block';
+        ttName.textContent = m.name;
+        ttType.textContent = m.type + ' · ' + m.place;
+        ttBelegg.textContent = m.belegg + ' beboere av ' + m.kapasitet + ' plasser';
+        ttPct.textContent = 'Belegg: ' + pct + '%';
+      });
+
+      circle.on('mousemove', function(e) {
+        const mapEl = document.getElementById('map');
+        const rect = mapEl.getBoundingClientRect();
+        const x = e.originalEvent.clientX - rect.left;
+        const y = e.originalEvent.clientY - rect.top;
+        tooltip.style.left = (x + 14) + 'px';
+        tooltip.style.top  = (y - 10) + 'px';
+      });
+
+      circle.on('mouseout', function() {
+        tooltip.style.display = 'none';
+      });
+    });
+  })();
+  </script>
+
+
+  <!-- SECTION 08: UKRAINA -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">08</span>
+      <h2 class="section-title">Ukrainske søkere — kjønn og alder <small style="font-family:var(--sans);font-size:12px;font-weight:400;color:var(--ink3);">— Kilde: UDI / IMDI</small></h2>
+    </div>
+    <p style="font-size:13px;color:var(--ink2);margin-bottom:28px;">Ukraina er klart største gruppe med 3 592 søknader (87 % av totalen) i perioden januar–april 2026, nesten alle under kollektiv beskyttelse. Tall hentet fra pivottabell-cache i kildefilen.</p>
+
+    <div class="kpi-grid">
+      <div class="kpi accent">
+        <div class="kpi-label">Totalt søknader</div>
+        <div class="kpi-value">3 592</div>
+        <div class="kpi-sub">87 % av alle søknader jan–apr</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Kvinner</div>
+        <div class="kpi-value">1 680</div>
+        <div class="kpi-sub">47 % av ukrainske søkere</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Menn</div>
+        <div class="kpi-value">1 917</div>
+        <div class="kpi-sub">53 % av ukrainske søkere</div>
+      </div>
+      <div class="kpi green">
+        <div class="kpi-label">Koll. beskyttelse</div>
+        <div class="kpi-value">3 385</div>
+        <div class="kpi-sub">94 % av ukrainske søknader</div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="chart-card">
+        <div class="chart-title">Ukraina — søknader per måned fordelt på kjønn</div>
+        <div class="legend">
+          <span class="legend-item"><span class="legend-dot" style="background:#2d5a8e"></span>Menn</span>
+          <span class="legend-item"><span class="legend-dot" style="background:#8b3a8b"></span>Kvinner</span>
+        </div>
+        <div class="chart-wrap" style="height:220px;">
+          <canvas id="ukrKjonnChart" role="img" aria-label="Søylediagram ukrainske søkere per måned fordelt kjønn">Jan: menn 543 kvinner 466. Feb: menn 537 kvinner 468. Mars: menn 576 kvinner 451.</canvas>
+        </div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">Ukraina — aldersfordeling søknader</div>
+        <div class="chart-wrap" style="height:220px;">
+          <canvas id="ukrAlderChart" role="img" aria-label="Kakediagram over aldersfordeling ukrainske søkere">18-29: 1242, 40-69: 655, 0-17: 604, 30-39: 351, 70+: 82, EMA 16-17: 77, EMA 0-14: 18, EMA 15: 12.</canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">Ukraina — vedtak Q1 2026: alder og kjønn</div>
+      <div class="legend">
+        <span class="legend-item"><span class="legend-dot" style="background:#2d5a8e"></span>Menn</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#8b3a8b"></span>Kvinner</span>
+      </div>
+      <div class="chart-wrap" style="height:260px;">
+        <canvas id="ukrVedtakAlderChart" role="img" aria-label="Gruppert søylediagram over ukrainske vedtak etter aldersgruppe og kjønn">Ukrainske vedtak fordelt på alder og kjønn.</canvas>
+      </div>
+    </div>
+
+    <div class="month-table-wrap">
+      <table class="month-table">
+        <thead>
+          <tr><th>Vedtaktype</th><th>Antall</th><th>Andel</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>02. Kollektiv beskyttelse</td><td>3 371</td><td>88,2 %</td></tr>
+          <tr><td>06. Avslag</td><td>165</td><td>4,3 %</td></tr>
+          <tr><td>08. Trukket</td><td>183</td><td>4,8 %</td></tr>
+          <tr><td>09. Henlagt</td><td>63</td><td>1,6 %</td></tr>
+          <tr><td>07. Dublin II</td><td>19</td><td>0,5 %</td></tr>
+        </tbody>
+        <tfoot><tr><td>Totalt</td><td>3 801</td><td>100 %</td></tr></tfoot>
+      </table>
+    </div>
+  </section>
+
+  <!-- SECTION 09: EMA -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">09</span>
+      <h2 class="section-title">Enslige mindreårige asylsøkere (EMA) <small style="font-family:var(--sans);font-size:12px;font-weight:400;color:var(--ink3);">— Kilde: UDI / IMDI</small></h2>
+    </div>
+    <p style="font-size:13px;color:var(--ink2);margin-bottom:28px;">EMA er en sårbar gruppe som følges særskilt. 84 % av alle EMA-søkere i perioden januar–april 2026 er fra Ukraina (115 av 137).</p>
+
+    <div class="kpi-grid">
+      <div class="kpi accent">
+        <div class="kpi-label">EMA-søknader jan–apr</div>
+        <div class="kpi-value">137</div>
+        <div class="kpi-sub">totalt</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Gutter</div>
+        <div class="kpi-value">88</div>
+        <div class="kpi-sub">64 % av EMA</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Jenter</div>
+        <div class="kpi-value">49</div>
+        <div class="kpi-sub">36 % av EMA</div>
+      </div>
+      <div class="kpi warn">
+        <div class="kpi-label">Saker til behandling</div>
+        <div class="kpi-value">387</div>
+        <div class="kpi-sub">EMA ved utgangen av mars</div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="chart-card">
+        <div class="chart-title">EMA — søknader per måned fordelt på kjønn</div>
+        <div class="legend">
+          <span class="legend-item"><span class="legend-dot" style="background:#2d5a8e"></span>Gutter</span>
+          <span class="legend-item"><span class="legend-dot" style="background:#8b3a8b"></span>Jenter</span>
+        </div>
+        <div class="chart-wrap" style="height:220px;">
+          <canvas id="emaKjonnChart" role="img" aria-label="Søylediagram EMA søknader per måned og kjønn">Jan: gutter 17, jenter 20. Feb: gutter 27, jenter 12. Mars: gutter 38, jenter 11.</canvas>
+        </div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">EMA — aldersgrupper (søknader)</div>
+        <div class="chart-wrap" style="height:220px;">
+          <canvas id="emaAlderChart" role="img" aria-label="Kakediagram over EMA aldersgrupper">16-17 år: 88, 0-14 år: 21, 15 år: 16.</canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="chart-card">
+        <div class="chart-title">EMA — landbakgrunn søknader (topp 5)</div>
+        <div class="chart-wrap" style="height:220px;">
+          <canvas id="emaLandChart" role="img" aria-label="Horisontal søylediagram EMA etter landbakgrunn">Ukraina 107, Afghanistan 5, Sudan 5, Palestina 3, andre 5.</canvas>
+        </div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">EMA til behandling — ventetid</div>
+        <div class="chart-wrap" style="height:220px;">
+          <canvas id="emaVentetidChart" role="img" aria-label="Søylediagram EMA saker til behandling etter ventetid">Under 6 mnd: 77, 6-11 mnd: 50, 12-14 mnd: 20, 15-23 mnd: 192, 24-35 mnd: 47, over 36 mnd: 1.</canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">EMA til behandling — topp 5 landbakgrunn</div>
+      <div class="chart-wrap" style="height: 160px;">
+        <canvas id="emaLandBehandlingChart" role="img" aria-label="Horisontal søylediagram EMA til behandling etter land">Syria 268, Ukraina 44, Eritrea 25, Afghanistan 11, Sudan 7.</canvas>
+      </div>
+    </div>
+
+    <div class="month-table-wrap">
+      <table class="month-table">
+        <thead>
+          <tr><th>Vedtaktype (EMA)</th><th>Kvinner</th><th>Menn</th><th>Totalt</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>02. Kollektiv beskyttelse</td><td>62</td><td>77</td><td>139</td></tr>
+          <tr><td>01. Konvensjonsflyktning</td><td>3</td><td>3</td><td>6</td></tr>
+          <tr><td>06. Avslag</td><td>3</td><td>14</td><td>17</td></tr>
+          <tr><td>Andre</td><td>2</td><td>10</td><td>12</td></tr>
+        </tbody>
+        <tfoot><tr><td>Totalt</td><td>70</td><td>104</td><td>174</td></tr></tfoot>
+      </table>
+    </div>
+  </section>
+
+  <!-- SECTION 10: BRUK AV HELSETJENESTER -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">10</span>
+      <h2 class="section-title">Bruk av helsetjenester — pasienter ved Råde med DNR <small style="font-family:var(--sans);font-size:12px;font-weight:400;color:var(--ink3);">— Kilde: Helsedirektoratet KUHR</small></h2>
+    </div>
+
+    <div style="background:var(--accent-light);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:14px 18px;margin-bottom:24px;font-size:13px;color:#1a3a5c;line-height:1.7;">
+      <strong style="display:block;margin-bottom:4px;">Om populasjonen</strong>
+      Dette er en populasjon Helsedirektoratet følger særskilt. Utvalget er hentet fra flyktninger som har mottatt helsehjelp ved Nasjonalt ankomstsenter på Råde — totalt <strong>ca. 13 000 personer</strong> i perioden 2022–2026, identifisert via DNR-nummer (D-nummer). Tallene viser bruk av helsetjenester i <strong>2025 (hele året)</strong> og <strong>2026 (januar–mai)</strong> for de av disse som har registrerte kontakter i KUHR-registeret.
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi accent">
+        <div class="kpi-label">Kontakter 2025</div>
+        <div class="kpi-value">31 254</div>
+        <div class="kpi-sub">4 114 unike pasienter</div>
+      </div>
+      <div class="kpi green">
+        <div class="kpi-label">Kontakter 2026 (jan–mai)</div>
+        <div class="kpi-value">11 604</div>
+        <div class="kpi-sub">2 168 unike pasienter</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Menn 2025</div>
+        <div class="kpi-value">58,1 %</div>
+        <div class="kpi-sub">18 160 kontakter</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Menn 2026</div>
+        <div class="kpi-value">58,4 %</div>
+        <div class="kpi-sub">6 780 kontakter</div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="chart-card">
+        <div class="chart-title">Kontakter per tjenestetype — 2025 vs. 2026</div>
+        <div class="legend">
+          <span class="legend-item"><span class="legend-dot" style="background:#2d5a8e"></span>2025</span>
+          <span class="legend-item"><span class="legend-dot" style="background:#1d7a5a"></span>2026 (jan–mai)</span>
+        </div>
+        <div class="chart-wrap" style="height:260px;">
+          <canvas id="helseTypeChart2"></canvas>
+        </div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">Kontakter per måned — 2025 og 2026</div>
+        <div class="legend">
+          <span class="legend-item"><span class="legend-dot" style="background:#2d5a8e"></span>2025</span>
+          <span class="legend-item"><span class="legend-dot" style="background:#b85c1a"></span>2026</span>
+        </div>
+        <div class="chart-wrap" style="height:260px;">
+          <canvas id="helseMndChart2"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">Legekontakter etter praksistype — 2025 vs. 2026</div>
+      <div class="legend">
+        <span class="legend-item"><span class="legend-dot" style="background:#2d5a8e"></span>2025</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#1d7a5a"></span>2026 (jan–mai)</span>
+      </div>
+      <div class="chart-wrap" style="height:220px;">
+        <canvas id="legePraksisChart2"></canvas>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">Kontakter per aldersgruppe — 2025 (helår)</div>
+      <div class="chart-wrap" style="height:260px;">
+        <canvas id="helseAlderChart2"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <script>
+  // === HELSETJENESTER 2025 vs 2026 ===
+
+  // Tjenestetype
+  new Chart(document.getElementById('helseTypeChart2'), {
+    type: 'bar',
+    data: {
+      labels: ['Lege (LE)', 'Poliklinikk (PO)', 'Pasientreiser (PR)', 'Lab/Røntgen (LR)', 'Fysioterapi (FY)', 'Helsestasjon (HS)', 'Tannlege (TH)'],
+      datasets: [
+        { label: '2025', data: [18378, 10106, 1148, 625, 350, 308, 295], backgroundColor: '#2d5a8e', borderRadius: 3 },
+        { label: '2026 (jan–mai)', data: [6405, 3886, 650, 255, 211, 93, 98], backgroundColor: '#1d7a5a', borderRadius: 3 },
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { labels: { font: { size: 11 }, color: '#5a5750', padding: 8, boxWidth: 10 } },
+        tooltip: { backgroundColor: '#1c1a16', titleColor: '#faf8f3', bodyColor: '#9a9690', padding: 8 } },
+      scales: {
+        x: { grid: { display: false }, ticks: { color: '#9a9690', font: { size: 10 } } },
+        y: { grid: { color: '#e0ddd6' }, ticks: { color: '#9a9690' } }
+      }
+    }
+  });
+
+  // Månedlig utvikling
+  new Chart(document.getElementById('helseMndChart2'), {
+    type: 'line',
+    data: {
+      labels: ['Jan','Feb','Mar','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Des'],
+      datasets: [
+        { label: '2025', data: [2787,2388,2398,2104,2217,2497,2263,2522,3220,3109,2870,2879],
+          borderColor: '#2d5a8e', backgroundColor: 'rgba(45,90,142,0.06)', borderWidth: 2.5, pointRadius: 3, tension: 0.3, fill: true },
+        { label: '2026', data: [2942,2774,2826,2351,711,null,null,null,null,null,null,null],
+          borderColor: '#b85c1a', backgroundColor: 'rgba(184,92,26,0.06)', borderWidth: 2.5, pointRadius: 3, tension: 0.3, fill: true },
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { labels: { font: { size: 11 }, color: '#5a5750', padding: 8, boxWidth: 10 } },
+        tooltip: { backgroundColor: '#1c1a16', titleColor: '#faf8f3', bodyColor: '#9a9690', padding: 8 } },
+      scales: {
+        x: { grid: { display: false }, ticks: { color: '#9a9690' } },
+        y: { grid: { color: '#e0ddd6' }, ticks: { color: '#9a9690' } }
+      }
+    }
+  });
+
+  // Legepraksis
+  new Chart(document.getElementById('legePraksisChart2'), {
+    type: 'bar',
+    data: {
+      labels: ['Poliklinikk', 'Legevakt kommunal', 'Fastlege', 'Fastlønnet', 'Turnuslege', 'Legevakt', 'Lab/Røntgen'],
+      datasets: [
+        { label: '2025', data: [10106, 10018, 3392, 3275, 703, 679, 625], backgroundColor: '#2d5a8e', borderRadius: 3 },
+        { label: '2026', data: [3886, 3038, 1372, 1330, 278, 212, 255], backgroundColor: '#1d7a5a', borderRadius: 3 },
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { labels: { font: { size: 11 }, color: '#5a5750', padding: 8, boxWidth: 10 } } },
+      scales: {
+        x: { grid: { display: false }, ticks: { color: '#9a9690', font: { size: 10 }, maxRotation: 30 } },
+        y: { grid: { color: '#e0ddd6' }, ticks: { color: '#9a9690' } }
+      }
+    }
+  });
+
+  // Aldersgrupper 2025
+  const alderLabels2 = ['0–4','5–9','10–14','15–19','20–24','25–29','30–34','35–39','40–44','45–49','50–54','55–59','60–64','65–69','70–74','75–79','80+'];
+  const alderData2025 = [993,993,685,1150,3733,4068,4321,3206,2692,2553,1816,1202,1145,1353,708,441,195];
+  new Chart(document.getElementById('helseAlderChart2'), {
+    type: 'bar',
+    data: {
+      labels: alderLabels2,
+      datasets: [{
+        label: '2025',
+        data: alderData2025,
+        backgroundColor: alderData2025.map(v => v > 3000 ? '#b85c1a' : v > 1500 ? '#2d5a8e' : '#1d7a5a'),
+        borderRadius: 3
+      }]
+    },
+    options: {
+      indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { color: '#e0ddd6' }, ticks: { color: '#9a9690' } },
+        y: { grid: { display: false }, ticks: { color: '#5a5750', font: { size: 11 } } }
+      }
+    }
+  });
+  </script>
+
+  <!-- SECTION 11: DIAGNOSER -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">11</span>
+      <h2 class="section-title">Diagnoser — ICPC-2 og ICD-10 <small style="font-family:var(--sans);font-size:12px;font-weight:400;color:var(--ink3);">— Kilde: Helsedirektoratet KUHR</small></h2>
+    </div>
+    <p style="font-size:13px;color:var(--ink2);margin-bottom:28px;">Totalt <strong>30 635</strong> diagnosekoder i 2025 og <strong>11 041</strong> i 2026 (jan–mai). ICPC-2 brukes primært av leger, ICD-10 av poliklinikk.</p>
+
+    <div class="kpi-grid">
+      <div class="kpi accent">
+        <div class="kpi-label">Diagnosekoder 2025</div>
+        <div class="kpi-value">30 635</div>
+        <div class="kpi-sub">helår</div>
+      </div>
+      <div class="kpi green">
+        <div class="kpi-label">Diagnosekoder 2026</div>
+        <div class="kpi-value">11 041</div>
+        <div class="kpi-sub">januar–mai</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Hyppigste 2025</div>
+        <div class="kpi-value">A50</div>
+        <div class="kpi-sub">Tretthet — 2 645 ganger</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Hyppigste 2026</div>
+        <div class="kpi-value">A50</div>
+        <div class="kpi-sub">Tretthet — 938 ganger</div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="chart-card">
+        <div class="chart-title">Topp 15 diagnoser — 2025 vs 2026</div>
+        <div class="legend">
+          <span class="legend-item"><span class="legend-dot" style="background:#2d5a8e"></span>2025</span>
+          <span class="legend-item"><span class="legend-dot" style="background:#b85c1a"></span>2026 (jan–mai)</span>
+        </div>
+        <div class="chart-wrap" style="height:360px;">
+          <canvas id="diagTop2"></canvas>
+        </div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">Ny i topp 20 i 2026 — endringer</div>
+        <div class="chart-wrap" style="height:360px;">
+          <canvas id="diagNy2026"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="month-table-wrap">
+      <table class="month-table">
+        <thead>
+          <tr>
+            <th style="text-align:left">Kode</th>
+            <th style="text-align:left">System</th>
+            <th style="text-align:left">Beskrivelse</th>
+            <th>2025</th>
+            <th>2026 (jan–mai)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>A50</td><td style="color:var(--accent);font-weight:500">ICPC-2</td><td>Sykdomsfølelse / tretthet</td><td>2 645</td><td>938</td></tr>
+          <tr><td>A63</td><td style="color:var(--accent);font-weight:500">ICPC-2</td><td>Bekymring / frykt for sykdom</td><td>2 235</td><td>641</td></tr>
+          <tr><td>A99</td><td style="color:var(--accent);font-weight:500">ICPC-2</td><td>Uspesifisert tilstand, allment</td><td>1 521</td><td>458</td></tr>
+          <tr><td>A62</td><td style="color:var(--accent);font-weight:500">ICPC-2</td><td>Administrativt oppmøte</td><td>1 215</td><td>284</td></tr>
+          <tr><td>A97</td><td style="color:var(--accent);font-weight:500">ICPC-2</td><td>Skade uten nærmere spesifisering</td><td>1 079</td><td>349</td></tr>
+          <tr><td>A98</td><td style="color:var(--accent);font-weight:500">ICPC-2</td><td>Helsevedlikehold / forebygging</td><td>1 043</td><td>324</td></tr>
+          <tr><td>A91</td><td style="color:var(--accent);font-weight:500">ICPC-2</td><td>Unormal testresultat</td><td>861</td><td>262</td></tr>
+          <tr><td>R74</td><td style="color:var(--accent);font-weight:500">ICPC-2</td><td>Øvre luftveisinfeksjon</td><td>497</td><td>190</td></tr>
+          <tr><td>N01</td><td style="color:var(--accent);font-weight:500">ICPC-2</td><td>Hodepine</td><td>490</td><td>171</td></tr>
+          <tr><td>A03</td><td style="color:var(--accent);font-weight:500">ICPC-2</td><td>Feber</td><td>488</td><td>180</td></tr>
+          <tr><td>A13</td><td style="color:var(--accent);font-weight:500">ICPC-2</td><td>Bekymring sosiale/økon. problem</td><td>477</td><td>181</td></tr>
+          <tr><td>T90</td><td style="color:var(--accent);font-weight:500">ICPC-2</td><td>Diabetes mellitus type 2</td><td>391</td><td>155</td></tr>
+          <tr><td>S29</td><td style="color:var(--accent);font-weight:500">ICPC-2</td><td>Rødt øye / konjunktivitt</td><td>363</td><td>94</td></tr>
+          <tr><td>D01</td><td style="color:var(--accent);font-weight:500">ICPC-2</td><td>Magesmerter</td><td>347</td><td>108</td></tr>
+          <tr><td>P76</td><td style="color:var(--accent);font-weight:500">ICPC-2</td><td>Depressiv lidelse</td><td>257</td><td>111</td></tr>
+          <tr><td>P06</td><td style="color:var(--accent);font-weight:500">ICPC-2</td><td>Irritabel / aggressiv / rastløs <em style="color:var(--ink3);font-size:11px">&#x2191; ny i topp 2026</em></td><td>213</td><td>125</td></tr>
+          <tr><td>T91</td><td style="color:var(--accent);font-weight:500">ICPC-2</td><td>Vitaminmangel <em style="color:var(--ink3);font-size:11px">&#x2191; ny i topp 2026</em></td><td>195</td><td>96</td></tr>
+          <tr><td>F431</td><td style="color:var(--warn);font-weight:500">ICD-10</td><td>PTSD <em style="color:var(--ink3);font-size:11px">&#x2191; ny i topp 2026</em></td><td>140</td><td>90</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <script>
+  // Topp 15 diagnoser sammenligning
+  const diagLabels2 = ['A50 Tretthet','A63 Bekymring','A99 Uspesifisert','A62 Adm.','A97 Skade','A98 Forebygg.','A91 Testresultat','R74 Luftveisi.','N01 Hodepine','A03 Feber','A13 Sos./økon.','T90 Diabetes','S29 Øye','D01 Magesmerter','P76 Depresjon'];
+  new Chart(document.getElementById('diagTop2'), {
+    type: 'bar',
+    data: {
+      labels: diagLabels2,
+      datasets: [
+        { label: '2025', data: [2645,2235,1521,1215,1079,1043,861,497,490,488,477,391,363,347,257], backgroundColor: '#2d5a8e', borderRadius: 3 },
+        { label: '2026 (jan–mai)', data: [938,641,458,284,349,324,262,190,171,180,181,155,94,108,111], backgroundColor: '#b85c1a', borderRadius: 3 },
+      ]
+    },
+    options: {
+      indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { labels: { font: { size: 11 }, color: '#5a5750', padding: 8, boxWidth: 10 } } },
+      scales: {
+        x: { grid: { color: '#e0ddd6' }, ticks: { color: '#9a9690' } },
+        y: { grid: { display: false }, ticks: { color: '#5a5750', font: { size: 10 } } }
+      }
+    }
+  });
+
+  // Nye koder i 2026 topp 20
+  new Chart(document.getElementById('diagNy2026'), {
+    type: 'bar',
+    data: {
+      labels: ['P06 Irritabel/aggressiv', 'T91 Vitaminmangel', 'F431 PTSD', 'L02 Ryggsmerter', 'R21 Svelgproblem'],
+      datasets: [{
+        label: 'Antall 2026 (jan–mai)',
+        data: [125, 96, 90, 114, 105],
+        backgroundColor: ['#b85c1a','#c43b2a','#8b3a8b','#1d7a5a','#2d5a8e'],
+        borderRadius: 4
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false },
+        annotation: {} },
+      scales: {
+        x: { grid: { display: false }, ticks: { color: '#9a9690', font: { size: 10 } } },
+        y: { grid: { color: '#e0ddd6' }, ticks: { color: '#9a9690' } }
+      }
+    }
+  });
+  </script>
+
+  <footer class="footer">
+    <span>Helsedirektoratet · helsedirektoratet.no</span>
+    <span style="font-size:11px;color:var(--ink3);">Datakilder: UDI (asyl/mottak) · Helsedirektoratet KUHR (helsedata) · IMDI (integrering)</span>
+    <span>Data: januar–april 2026</span>
+  </footer>
+</div>
+
+<script>
+const months = ['Jan', 'Feb', 'Mar', 'Apr'];
+
+// SØKNADER CHART
+new Chart(document.getElementById('soknaderChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Jan','Feb','Mar','Apr'],
+    datasets: [
+      {
+        label: 'Kollektiv beskyttelse',
+        data: [940, 957, 965, 511],
+        backgroundColor: '#2d5a8e',
+        borderRadius: 4,
+      },
+      {
+        label: 'Ordinær',
+        data: [199, 218, 189, 139],
+        backgroundColor: '#1d7a5a',
+        borderRadius: 4,
+      }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { stacked: true, grid: { display: false }, ticks: { color: '#9a9690' } },
+      y: { stacked: true, grid: { color: '#e0ddd6' }, ticks: { color: '#9a9690' } }
+    }
+  }
+});
+
+// VEDTAK BAR CHART
+const vedtakInnvilget = [1359, 1052, 1087, 811];
+const vedtakAvslag   = [281, 226, 293, 256];
+new Chart(document.getElementById('vedtakChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Jan','Feb','Mar','Apr'],
+    datasets: [
+      { label: 'Innvilget', data: vedtakInnvilget, backgroundColor: '#2d5a8e', borderRadius: 4 },
+      { label: 'Avslag/andre', data: vedtakAvslag, backgroundColor: '#b85c1a', borderRadius: 4 }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { stacked: true, grid: { display: false }, ticks: { color: '#9a9690' } },
+      y: { stacked: true, grid: { color: '#e0ddd6' }, ticks: { color: '#9a9690' } }
+    }
+  }
+});
+
+// VEDTAK PIE CHART
+new Chart(document.getElementById('vedtakPieChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Koll. beskyttelse', 'Konvensjon', 'Avslag', 'Trukket', 'Dublin', 'Henlagt', 'Andre'],
+    datasets: [{
+      data: [4134, 156, 437, 314, 150, 118, 55],
+      backgroundColor: ['#2d5a8e','#1d7a5a','#b85c1a','#9a9690','#8b3a8b','#5a4a8a','#c4a82a'],
+      borderWidth: 2,
+      borderColor: '#ffffff'
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'bottom',
+        labels: { font: { size: 11 }, color: '#5a5750', padding: 10, boxWidth: 10 }
+      }
+    }
+  }
+});
+
+// VENTETID CHART
+new Chart(document.getElementById('ventetidChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Under 6 mnd', '6–11 mnd', '12–14 mnd', '15–23 mnd', '24–35 mnd', 'Over 36 mnd'],
+    datasets: [{
+      label: 'Saker',
+      data: [1358, 759, 227, 2094, 889, 89],
+      backgroundColor: ['#2d5a8e','#1d7a5a','#b85c1a','#c43b2a','#5a4a8a','#8b1a6b'],
+      borderRadius: 4,
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { display: false }, ticks: { color: '#9a9690', autoSkip: false } },
+      y: { grid: { color: '#e0ddd6' }, ticks: { color: '#9a9690' } }
+    }
+  }
+});
+
+// SAKSBEHANDLINGSTIDER CHART
+const saksMåneder = ['Feb 25','Mar 25','Apr 25','Mai 25','Jun 25','Jul 25','Aug 25','Sep 25','Okt 25','Nov 25','Des 25','Jan 26','Feb 26','Mar 26'];
+const kb_snitt =  [25,28,30,31,29,17,26,21,15,18,18,30,30,49];
+const ord_snitt = [448,399,340,389,435,316,424,406,463,387,395,380,415,464];
+const ema_snitt = [152,116,167,214,253,495,182,170,125,121,172,91,124,264];
+
+new Chart(document.getElementById('sakstidChart'), {
+  type: 'line',
+  data: {
+    labels: saksMåneder,
+    datasets: [
+      {
+        label: 'Kollektiv beskyttelse',
+        data: kb_snitt,
+        borderColor: '#2d5a8e',
+        backgroundColor: 'rgba(45,90,142,0.08)',
+        tension: 0.3,
+        pointRadius: 4,
+        pointBackgroundColor: '#2d5a8e',
+        fill: false,
+        yAxisID: 'y2'
+      },
+      {
+        label: 'Ordinær',
+        data: ord_snitt,
+        borderColor: '#b85c1a',
+        backgroundColor: 'rgba(184,92,26,0.08)',
+        tension: 0.3,
+        pointRadius: 4,
+        pointBackgroundColor: '#b85c1a',
+        fill: false,
+        yAxisID: 'y1'
+      },
+      {
+        label: 'Enslige mindreårige',
+        data: ema_snitt,
+        borderColor: '#1d7a5a',
+        backgroundColor: 'rgba(29,122,90,0.08)',
+        tension: 0.3,
+        pointRadius: 4,
+        pointBackgroundColor: '#1d7a5a',
+        fill: false,
+        yAxisID: 'y1'
+      }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { display: false }, ticks: { color: '#9a9690', maxRotation: 45 } },
+      y1: {
+        type: 'linear', position: 'left',
+        grid: { color: '#e0ddd6' }, ticks: { color: '#9a9690' },
+        title: { display: true, text: 'Dager (ordinær / EMA)', color: '#9a9690', font: { size: 11 } }
+      },
+      y2: {
+        type: 'linear', position: 'right',
+        grid: { drawOnChartArea: false }, ticks: { color: '#2d5a8e' },
+        title: { display: true, text: 'Dager (KB)', color: '#2d5a8e', font: { size: 11 } }
+      }
+    }
+  }
+});
+
+// BELEGG DATA
+const beleggData = [
+  { type: 'Ankomstsenter', kap: 850, belegg: 207 },
+  { type: 'Akuttinnkvartering', kap: 1712, belegg: 1055 },
+  { type: 'Transitt', kap: 789, belegg: 94 },
+  { type: 'Ordinær', kap: 9936, belegg: 9089 },
+  { type: 'EMA-ordinær', kap: 470, belegg: 225 },
+  { type: 'EMA-transitt', kap: 60, belegg: 6 },
+  { type: 'Tilrettelagt avdeling', kap: 172, belegg: 153 },
+  { type: 'Særpleie', kap: 53, belegg: 39 },
+  { type: 'Særbol', kap: 30, belegg: 29 },
+  { type: 'Pårørende-avdeling', kap: 24, belegg: 20 },
+  { type: 'Beredskapskapasitet', kap: 200, belegg: 0 },
+];
+
+// Render table
+const tbody = document.getElementById('beleggTableBody');
+beleggData.forEach(d => {
+  const pct = d.kap > 0 ? Math.round((d.belegg / d.kap) * 100) : 0;
+  const color = pct >= 90 ? '#b85c1a' : pct >= 60 ? '#1d7a5a' : '#2d5a8e';
+  tbody.innerHTML += `
+    <tr>
+      <td>${d.type}</td>
+      <td>${d.kap.toLocaleString('nb-NO')}</td>
+      <td>${d.belegg.toLocaleString('nb-NO')}</td>
+      <td style="color:${color}; font-weight:500;">${pct}%</td>
+    </tr>
+  `;
+});
+
+// === UKRAINA CHARTS ===
+
+// Ukraina søknader kjønn per måned
+new Chart(document.getElementById('ukrKjonnChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Januar', 'Februar', 'Mars', 'April'],
+    datasets: [
+      { label: 'Menn', data: [547, 538, 577, 255], backgroundColor: '#2d5a8e', borderRadius: 4 },
+      { label: 'Kvinner', data: [468, 469, 447, 296], backgroundColor: '#8b3a8b', borderRadius: 4 }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { stacked: true, grid: { display: false }, ticks: { color: '#9a9690' } },
+      y: { stacked: true, grid: { color: '#e0ddd6' }, ticks: { color: '#9a9690' } }
+    }
+  }
+});
+
+// Ukraina aldersfordeling
+new Chart(document.getElementById('ukrAlderChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['18–29 år', '40–69 år', '0–17 år', '30–39 år', '70+ år', 'EMA 16–17', 'EMA 0–14', 'EMA 15 år'],
+    datasets: [{
+      data: [1379, 829, 747, 410, 117, 85, 17, 13],
+      backgroundColor: ['#2d5a8e','#1d7a5a','#b85c1a','#8b3a8b','#5a4a8a','#c43b2a','#2a7a8b','#6b8b2a'],
+      borderWidth: 2, borderColor: '#ffffff'
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'bottom', labels: { font: { size: 10 }, color: '#5a5750', padding: 8, boxWidth: 10 } }
+    }
+  }
+});
+
+// Ukraina vedtak etter alder og kjønn
+// Estimated split based on total 3801 vedtak, 45.3% kvinner
+new Chart(document.getElementById('ukrVedtakAlderChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Under 15', '15 år', '16–17', '18–29', '30–49', 'Over 50'],
+    datasets: [
+      {
+        label: 'Menn',
+        data: [321, 27, 101, 889, 451, 289],
+        backgroundColor: '#2d5a8e', borderRadius: 4
+      },
+      {
+        label: 'Kvinner',
+        data: [333, 22, 61, 679, 335, 293],
+        backgroundColor: '#8b3a8b', borderRadius: 4
+      }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false },
+      tooltip: { callbacks: { footer: (items) => 'Total: ' + items.reduce((s,i) => s+i.raw, 0) } }
+    },
+    scales: {
+      x: { grid: { display: false }, ticks: { color: '#9a9690' } },
+      y: { grid: { color: '#e0ddd6' }, ticks: { color: '#9a9690' } }
+    }
+  }
+});
+
+// === EMA CHARTS ===
+
+// EMA søknader kjønn per måned
+new Chart(document.getElementById('emaKjonnChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Januar', 'Februar', 'Mars', 'April'],
+    datasets: [
+      { label: 'Gutter', data: [17, 27, 37, 7], backgroundColor: '#2d5a8e', borderRadius: 4 },
+      { label: 'Jenter', data: [20, 12, 12, 5], backgroundColor: '#8b3a8b', borderRadius: 4 }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { stacked: true, grid: { display: false }, ticks: { color: '#9a9690' } },
+      y: { stacked: true, grid: { color: '#e0ddd6' }, ticks: { color: '#9a9690' } }
+    }
+  }
+});
+
+// EMA aldersgrupper
+new Chart(document.getElementById('emaAlderChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['16–17 år (100)', '0–14 år (20)', '15 år (17)'],
+    datasets: [{
+      data: [100, 20, 17],
+      backgroundColor: ['#2d5a8e', '#b85c1a', '#1d7a5a'],
+      borderWidth: 2, borderColor: '#ffffff'
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'bottom', labels: { font: { size: 11 }, color: '#5a5750', padding: 10, boxWidth: 10 } }
+    }
+  }
+});
+
+// EMA landbakgrunn søknader
+new Chart(document.getElementById('emaLandChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Ukraina', 'Sudan', 'Afghanistan', 'Palestina', 'Eritrea'],
+    datasets: [{
+      label: 'Søknader',
+      data: [115, 6, 5, 3, 1],
+      backgroundColor: ['#2d5a8e','#b85c1a','#1d7a5a','#8b3a8b','#9a9690'],
+      borderRadius: 4
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { color: '#e0ddd6' }, ticks: { color: '#9a9690' } },
+      y: { grid: { display: false }, ticks: { color: '#5a5750' } }
+    }
+  }
+});
+
+// EMA ventetid til behandling
+new Chart(document.getElementById('emaVentetidChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Under 6 mnd', '6–11 mnd', '12–14 mnd', '15–23 mnd', '24–35 mnd', 'Over 36 mnd'],
+    datasets: [{
+      label: 'Saker',
+      data: [77, 50, 20, 192, 47, 1],
+      backgroundColor: ['#1d7a5a','#2d5a8e','#b85c1a','#c43b2a','#8b3a8b','#c43b2a'],
+      borderRadius: 4
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { display: false }, ticks: { color: '#9a9690', font: { size: 10 } } },
+      y: { grid: { color: '#e0ddd6' }, ticks: { color: '#9a9690' } }
+    }
+  }
+});
+
+// EMA til behandling - landbakgrunn
+new Chart(document.getElementById('emaLandBehandlingChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Syria', 'Ukraina', 'Eritrea', 'Afghanistan', 'Sudan'],
+    datasets: [{
+      label: 'Saker til behandling',
+      data: [268, 44, 25, 11, 7],
+      backgroundColor: ['#b85c1a','#2d5a8e','#1d7a5a','#8b3a8b','#c43b2a'],
+      borderRadius: 4
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { color: '#e0ddd6' }, ticks: { color: '#9a9690' } },
+      y: { grid: { display: false }, ticks: { color: '#5a5750' } }
+    }
+  }
+});
+
+// Add totalsum row
+const totalKap = beleggData.reduce((s,d)=>s+d.kap,0);
+const totalBelegg = beleggData.reduce((s,d)=>s+d.belegg,0);
+const totalPct = Math.round((totalBelegg/totalKap)*100);
+tbody.innerHTML += `
+  <tr style="font-weight:600; background:var(--surface2);">
+    <td style="padding:12px 16px;">Totalsum</td>
+    <td style="padding:12px 16px; text-align:right;">${totalKap.toLocaleString('nb-NO')}</td>
+    <td style="padding:12px 16px; text-align:right;">${totalBelegg.toLocaleString('nb-NO')}</td>
+    <td style="padding:12px 16px; text-align:right; color:#b85c1a;">${totalPct}%</td>
+  </tr>
+`;
+</script>
+</body>
+</html>
