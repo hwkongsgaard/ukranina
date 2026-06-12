@@ -350,12 +350,12 @@ h1 span {
   <header class="header">
     <div class="header-tag">NeuralProphet · Tidsserie-fremskriving</div>
     <h1>TB-screening og ankomster<br><span>2026–2029</span></h1>
-    <p class="header-sub">Fremskriving basert på månedlige data fra januar 2022 til april 2026, justert for to politikkendringer: <strong>Zelenskys reisefrihet for menn 18–22 år</strong> (9. sept. 2025) og <strong>norsk forskriftsendring om bortfall av kollektiv beskyttelse</strong> for ukrainske menn 18–60 år (27. mars 2026). Fremskrivingen viser både basisscenario (uten justering) og policyjustert scenario.</p>
+    <p class="header-sub">Fremskriving basert på månedlige data fra januar 2022 til mai 2026, justert for to politikkendringer: <strong>Zelenskys reisefrihet for menn 18–22 år</strong> (9. sept. 2025) og <strong>norsk forskriftsendring om bortfall av kollektiv beskyttelse</strong> for ukrainske menn 18–60 år (27. mars 2026). Fremskrivingen viser både basisscenario (uten justering) og policyjustert scenario.</p>
     <div class="header-meta">
       <span class="badge badge-blue">NeuralProphet 0.8.0</span>
       <span class="badge badge-blue">n_lags = 12 måneder</span>
       <span class="badge badge-blue">Yearly seasonality</span>
-      <span class="badge badge-green">52 historiske datapunkter</span>
+      <span class="badge badge-green">53 historiske datapunkter</span>
       <span class="badge badge-warn">Usikkerhet øker etter 12 mnd</span>
       <span class="badge badge-warn">Policy: NO-forskrift 27.03.2026</span>
       <span class="badge badge-warn">Policy: Zelensky 09.09.2025</span>
@@ -366,24 +366,24 @@ h1 span {
   <!-- KPI STRIP -->
   <div class="kpi-strip">
     <div class="kpi-cell">
-      <div class="kpi-label">Siste faktisk (apr 26)</div>
-      <div class="kpi-val">650</div>
+      <div class="kpi-label">Siste faktisk (mai 26)</div>
+      <div class="kpi-val">492</div>
       <div class="kpi-sub">ankomster</div>
     </div>
     <div class="kpi-cell">
-      <div class="kpi-label">Basisprognose mai 26</div>
-      <div class="kpi-val blue">761</div>
+      <div class="kpi-label">Basisprognose jun 26</div>
+      <div class="kpi-val blue">800</div>
       <div class="kpi-sub">uten politikkhensyn</div>
     </div>
     <div class="kpi-cell">
-      <div class="kpi-label">Policyjustert mai 26</div>
-      <div class="kpi-val warn">653</div>
+      <div class="kpi-label">Policyjustert jun 26</div>
+      <div class="kpi-val warn">687</div>
       <div class="kpi-sub">−14 % etter norsk forskrift</div>
     </div>
     <div class="kpi-cell">
       <div class="kpi-label">Policyjustert sep 26</div>
-      <div class="kpi-val warn">1 808</div>
-      <div class="kpi-sub">vs. basis 2 429 (−26 %)</div>
+      <div class="kpi-val warn">1 771</div>
+      <div class="kpi-sub">vs. basis 2 380 (−26 %)</div>
     </div>
   </div>
 
@@ -474,7 +474,7 @@ h1 span {
   <div class="chart-card blue-accent">
     <div class="chart-label">Figur 01 — Fullstendig tidsserie</div>
     <div class="chart-title">Ankomster og TB-screenet — historikk og fremskriving</div>
-    <div class="chart-desc">Faktiske tall (jan 2022 – apr 2026) og NeuralProphet-fremskriving (mai 2026 – apr 2029). Fremskrivingen etter 2027 bør tolkes med stor varsomhet grunnet akkumulert modellusikkerhet.</div>
+    <div class="chart-desc">Faktiske tall (jan 2022 – mai 2026) og NeuralProphet-fremskriving (jun 2026 – apr 2029). Fremskrivingen etter 2027 bør tolkes med stor varsomhet grunnet akkumulert modellusikkerhet.</div>
     <div class="legend">
       <span class="legend-item"><span class="ld" style="background:#8fa3bc"></span>Ankomster — historisk</span>
       <span class="legend-item"><span class="ld" style="background:#3b7dd8;opacity:0.45"></span>Basis (NeuralProphet)</span>
@@ -519,7 +519,7 @@ h1 span {
   <div class="chart-card blue-accent">
     <div class="chart-label">Figur 04 — Årsaggregat</div>
     <div class="chart-title">Prognose: totale ankomster og TB-undersøkte per år</div>
-    <div class="chart-desc">2026 inkluderer faktiske tall jan–apr. 2027–2028 er rene fremskrivinger.</div>
+    <div class="chart-desc">2026 inkluderer faktiske tall jan–mai. Modellen er rekjørt 10.06.2026 på 53 observasjoner (median av 5-seeds-ensemble for stabilitet); den lave mai-verdien (492) er del av treningsgrunnlaget. 2027–2028 er rene fremskrivinger.</div>
     <div class="chart-wrap" style="height:220px;">
       <canvas id="yearChart" aria-label="Årsaggregat fremskriving"></canvas>
     </div>
@@ -537,11 +537,11 @@ h1 span {
       </div>
       <div>
         <div class="method-item-label">Konfigurasjonsparametere</div>
-        <div class="method-item-val">n_lags = 12 (12 måneders tilbakeblikk), yearly_seasonality = True, epochs = 400, learning_rate = 0.003, rolling 1-step ahead prediction</div>
+        <div class="method-item-val">n_lags = 12 (12 måneders tilbakeblikk), yearly_seasonality = True, epochs = 400, learning_rate = 0.003, rolling 1-step ahead prediction. Rekjørt 10.06.2026 med data t.o.m. mai 2026 — median av 5 seeds (enkeltkjøringer er ustabile på 53 datapunkter)</div>
       </div>
       <div>
         <div class="method-item-label">Datagrunnlag</div>
-        <div class="method-item-val">52 månedlige observasjoner (jan 2022 – apr 2026). To separate modeller: én for ankomster, én for TB-screenet. Kilde: UDI og Helsedirektoratet KUHR</div>
+        <div class="method-item-val">53 månedlige observasjoner (jan 2022 – mai 2026). To separate modeller: én for ankomster, én for TB-screenet. Kilde: UDI og Helsedirektoratet KUHR</div>
       </div>
     </div>
   </div>
@@ -599,31 +599,33 @@ const hist = [
   {ds:'2025-07',a:1096,  s:1021}, {ds:'2025-08',a:1268,  s:852},
   {ds:'2025-09',a:2289,  s:1806}, {ds:'2025-10',a:2688,  s:2823},
   {ds:'2025-11',a:2033,  s:1691}, {ds:'2025-12',a:1800,  s:1917},
-  {ds:'2026-01',a:1138,  s:867},  {ds:'2026-02',a:1180,  s:1037},
-  {ds:'2026-03',a:1158,  s:869},  {ds:'2026-04',a:650,   s:711},
+  {ds:'2026-01',a:1144,  s:867},  {ds:'2026-02',a:1181,  s:1037},
+  {ds:'2026-03',a:1160,  s:869},  {ds:'2026-04',a:639,   s:711},
+  {ds:'2026-05',a:492,   s:420},
 ];
 
 // NeuralProphet forecasts — only use reliable near-term (12 months)
 // For 2027+ use seasonal decomposition trend
 const fc = [
-  {ds:'2026-05',af:761,  sf:522},  {ds:'2026-06',af:998,  sf:412},
-  {ds:'2026-07',af:1247, sf:1148}, {ds:'2026-08',af:1633, sf:1316},
-  {ds:'2026-09',af:2429, sf:1741}, {ds:'2026-10',af:2353, sf:2300},
-  {ds:'2026-11',af:1444, sf:1382}, {ds:'2026-12',af:1227, sf:1800},
-  {ds:'2027-01',af:900,  sf:850},  {ds:'2027-02',af:870,  sf:920},
-  {ds:'2027-03',af:960,  sf:1100}, {ds:'2027-04',af:680,  sf:580},
-  {ds:'2027-05',af:820,  sf:750},  {ds:'2027-06',af:1050, sf:780},
-  {ds:'2027-07',af:1300, sf:1050}, {ds:'2027-08',af:1650, sf:1450},
-  {ds:'2027-09',af:2100, sf:1650}, {ds:'2027-10',af:2000, sf:2100},
-  {ds:'2027-11',af:1300, sf:1200}, {ds:'2027-12',af:1050, sf:1400},
-  {ds:'2028-01',af:820,  sf:780},  {ds:'2028-02',af:790,  sf:860},
-  {ds:'2028-03',af:900,  sf:1000}, {ds:'2028-04',af:640,  sf:540},
-  {ds:'2028-05',af:780,  sf:700},  {ds:'2028-06',af:1010, sf:730},
-  {ds:'2028-07',af:1260, sf:980},  {ds:'2028-08',af:1600, sf:1380},
-  {ds:'2028-09',af:2050, sf:1580}, {ds:'2028-10',af:1950, sf:2000},
-  {ds:'2028-11',af:1250, sf:1150}, {ds:'2028-12',af:1000, sf:1320},
-  {ds:'2029-01',af:760,  sf:730},  {ds:'2029-02',af:740,  sf:810},
-  {ds:'2029-03',af:860,  sf:940},  {ds:'2029-04',af:610,  sf:510},
+  {ds:'2026-06',af:800, sf:362}, {ds:'2026-07',af:1296, sf:1211},
+  {ds:'2026-08',af:1753, sf:1328}, {ds:'2026-09',af:2380, sf:1611},
+  {ds:'2026-10',af:2720, sf:2583}, {ds:'2026-11',af:1895, sf:1404},
+  {ds:'2026-12',af:1440, sf:1758}, {ds:'2027-01',af:784, sf:693},
+  {ds:'2027-02',af:906, sf:961}, {ds:'2027-03',af:934, sf:695},
+  {ds:'2027-04',af:494, sf:806}, {ds:'2027-05',af:548, sf:616},
+  {ds:'2027-06',af:786, sf:640}, {ds:'2027-07',af:1445, sf:744},
+  {ds:'2027-08',af:1977, sf:1446}, {ds:'2027-09',af:2343, sf:1668},
+  {ds:'2027-10',af:2757, sf:2629}, {ds:'2027-11',af:1890, sf:1202},
+  {ds:'2027-12',af:1367, sf:1705}, {ds:'2028-01',af:935, sf:943},
+  {ds:'2028-02',af:783, sf:1103}, {ds:'2028-03',af:693, sf:600},
+  {ds:'2028-04',af:687, sf:957}, {ds:'2028-05',af:816, sf:521},
+  {ds:'2028-06',af:865, sf:902}, {ds:'2028-07',af:1422, sf:770},
+  {ds:'2028-08',af:2357, sf:1559}, {ds:'2028-09',af:2493, sf:1573},
+  {ds:'2028-10',af:2831, sf:2762}, {ds:'2028-11',af:1917, sf:1371},
+  {ds:'2028-12',af:1438, sf:1563}, {ds:'2029-01',af:1116, sf:702},
+  {ds:'2029-02',af:873, sf:1341}, {ds:'2029-03',af:743, sf:733},
+  {ds:'2029-04',af:670, sf:980},
+
 ];
 
 // ─── CHART HELPERS ─────────────────────────────────────────────────────────
@@ -643,24 +645,24 @@ const scrFc    = [...Array(n-1).fill(null), hist[n-1].s, ...fc.map(d=>d.sf)];
 
 // Policy-adjusted forecasts (Norwegian regulation 27 March 2026 + Zelensky effect)
 const fcAdj = [
-  {ds:'2026-05',af:653, sf:426},  {ds:'2026-06',af:857, sf:336},
-  {ds:'2026-07',af:928, sf:812},  {ds:'2026-08',af:1215,sf:930},
-  {ds:'2026-09',af:1808,sf:1231}, {ds:'2026-10',af:1751,sf:1626},
-  {ds:'2026-11',af:1075,sf:977},  {ds:'2026-12',af:913, sf:1273},
-  {ds:'2027-01',af:670, sf:601},  {ds:'2027-02',af:647, sf:650},
-  {ds:'2027-03',af:714, sf:778},  {ds:'2027-04',af:506, sf:410},
-  {ds:'2027-05',af:610, sf:530},  {ds:'2027-06',af:781, sf:551},
-  {ds:'2027-07',af:967, sf:742},  {ds:'2027-08',af:1228,sf:1025},
-  {ds:'2027-09',af:1563,sf:1166}, {ds:'2027-10',af:1488,sf:1485},
-  {ds:'2027-11',af:967, sf:848},  {ds:'2027-12',af:781, sf:990},
-  {ds:'2028-01',af:610, sf:551},  {ds:'2028-02',af:588, sf:608},
-  {ds:'2028-03',af:670, sf:707},  {ds:'2028-04',af:476, sf:382},
-  {ds:'2028-05',af:580, sf:495},  {ds:'2028-06',af:752, sf:516},
-  {ds:'2028-07',af:938, sf:693},  {ds:'2028-08',af:1191,sf:976},
-  {ds:'2028-09',af:1526,sf:1117}, {ds:'2028-10',af:1451,sf:1414},
-  {ds:'2028-11',af:930, sf:813},  {ds:'2028-12',af:744, sf:933},
-  {ds:'2029-01',af:566, sf:516},  {ds:'2029-02',af:551, sf:573},
-  {ds:'2029-03',af:640, sf:665},  {ds:'2029-04',af:454, sf:361},
+  {ds:'2026-06',af:687, sf:311}, {ds:'2026-07',af:964, sf:901},
+  {ds:'2026-08',af:1304, sf:988}, {ds:'2026-09',af:1771, sf:1199},
+  {ds:'2026-10',af:2024, sf:1922}, {ds:'2026-11',af:1410, sf:1045},
+  {ds:'2026-12',af:1071, sf:1308}, {ds:'2027-01',af:583, sf:516},
+  {ds:'2027-02',af:674, sf:715}, {ds:'2027-03',af:695, sf:517},
+  {ds:'2027-04',af:368, sf:600}, {ds:'2027-05',af:408, sf:458},
+  {ds:'2027-06',af:585, sf:476}, {ds:'2027-07',af:1075, sf:554},
+  {ds:'2027-08',af:1471, sf:1076}, {ds:'2027-09',af:1743, sf:1241},
+  {ds:'2027-10',af:2051, sf:1956}, {ds:'2027-11',af:1406, sf:894},
+  {ds:'2027-12',af:1017, sf:1269}, {ds:'2028-01',af:696, sf:702},
+  {ds:'2028-02',af:583, sf:821}, {ds:'2028-03',af:516, sf:446},
+  {ds:'2028-04',af:511, sf:712}, {ds:'2028-05',af:607, sf:388},
+  {ds:'2028-06',af:644, sf:671}, {ds:'2028-07',af:1058, sf:573},
+  {ds:'2028-08',af:1754, sf:1160}, {ds:'2028-09',af:1855, sf:1170},
+  {ds:'2028-10',af:2106, sf:2055}, {ds:'2028-11',af:1426, sf:1020},
+  {ds:'2028-12',af:1070, sf:1163}, {ds:'2029-01',af:830, sf:522},
+  {ds:'2029-02',af:650, sf:998}, {ds:'2029-03',af:553, sf:545},
+  {ds:'2029-04',af:498, sf:729},
 ];
 const ankFcAdj = [...Array(n-1).fill(null), hist[n-1].a, ...fcAdj.map(d=>d.af)];
 const scrFcAdj = [...Array(n-1).fill(null), hist[n-1].s, ...fcAdj.map(d=>d.sf)];
@@ -820,7 +822,7 @@ makeZoomChart('zoomAnk', fcAdj.slice(0,12).map(d=>d.af), 'blue');
 makeZoomChart('zoomScr', fcAdj.slice(0,12).map(d=>d.sf), 'green');
 
 // Year aggregate chart
-const years = ['2022', '2023', '2024', '2025', '2026 (jan–apr + prognose)', '2027 (prognose)', '2028 (prognose)'];
+const years = ['2022', '2023', '2024', '2025', '2026 (jan–mai + prognose)', '2027 (prognose)', '2028 (prognose)'];
 const yrAnkHist = [
   hist.filter(d=>d.ds.startsWith('2022')).reduce((s,d)=>s+d.a,0),
   hist.filter(d=>d.ds.startsWith('2023')).reduce((s,d)=>s+d.a,0),
